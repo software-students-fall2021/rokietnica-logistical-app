@@ -1,14 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+// this is the top-level component of the app, high-level components of our app
+// are added the DOM by inserting them into the JSX here
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p>Hello World!</p>
+        <p>Edit <code>src/App.js</code> and save to reload.</p>
         <a
           className="App-link"
           href="https://reactjs.org"
