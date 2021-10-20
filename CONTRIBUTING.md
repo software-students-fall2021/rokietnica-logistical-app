@@ -36,6 +36,11 @@ The Git workflow that the team follows:
 **MacOS Instructions**
 
 - Download Visual Studio Code and the Prettier extension.
+- Configure Prettier as your formatter:
+  `Ctrl-Shift-P` -> `Format Document` -> `Configure Default Formatter` -> `Prettier` -> `Code formatter`
+- Then enable format on save:
+  Click the gear icon on bottom left, then `Settings`, search for `Format on Save` and check the box.
+- Restart VSCode just to be safe!
 - Ensure that `npm` and `node` version 14 is installed and used.
 - If you are having EACCES permissions errors when installing `npm` globally, uninstall `npm` by running
   `sudo npm uninstall npm -g`, then complete the following steps:
