@@ -12,13 +12,21 @@ function App() {
       {/* A <Switch> looks through its children <Route>s and
       renders the first one that matches the current URL. */}
       <Switch>
-        <Route path="/test1"><Test1 /></Route>
-        <Route path="/test2"><Test2 /></Route>
+        <Route path="/test1">
+          <Test1 />
+        </Route>
+        <Route path="/test2">
+          <Test2 />
+        </Route>
       </Switch>
       <div className="App">
         <header className="App-header">
-          <Link className="App-link" to="/test1">Router Test 1</Link>
-          <Link className="App-link"to="/test2">Router Test 2</Link>
+          <Link className="App-link" to="/test1">
+            Router Test 1
+          </Link>
+          <Link className="App-link" to="/test2">
+            Router Test 2
+          </Link>
           <img src={logo} className="App-logo" alt="logo" />
           <p>Hello World!</p>
           <p>
