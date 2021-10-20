@@ -29,7 +29,7 @@ The Git workflow that the team follows:
 * Rinse and repeat!
 
 
-## Local Development Environment Setup:
+## Local Development Environment Setup
 **MacOS Instructions**
 * Download Visual Studio Code and the Prettier extension.
 * Ensure that `npm` and `node` version 14 is installed and used.
