@@ -4,9 +4,9 @@
 
 ### Standups
 
-Monday 3:15-3:30pm <br>
-Wednesday 3:15-3:30pm <br>
-Friday 3:15-3:30pm <br>
+- Monday 3:30-3:45pm
+- Wednesday 3:30-3:45pm
+- Friday 3:30-3:45pm
 
 Team members will make their best effort to attend these meetings.
 
