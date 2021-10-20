@@ -30,7 +30,7 @@ The Git workflow that the team follows:
 
 
 ## Local Development Environment Setup:
-*MacOS Instructions*
+**MacOS Instructions**
 * Download Visual Studio Code and the Prettier extension.
 * Ensure that `npm` and `node` version 14 is installed and used.
 * If you are having EACCES permissions errors when installing `npm` globally, uninstall `npm` by running
