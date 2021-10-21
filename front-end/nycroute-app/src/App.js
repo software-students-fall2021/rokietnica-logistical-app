@@ -7,6 +7,7 @@ import "./App.css";
 // import your component functions for use in route links
 import { Test1 } from "./Test1.js";
 import { Test2 } from "./Test2.js";
+import TestBootStrap from "./TestBootStrap.js";
 
 function App() {
   // add links to your pages for now
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/" component={CreateReactHome}></Route>
       <Route exact path="/test1" component={Test1}></Route>
       <Route exact path="/test2" component={Test2}></Route>
+      <Route exact path="/testBootstrap" component={TestBootStrap}></Route>
     </Switch>
   );
 }
@@ -30,6 +32,9 @@ function CreateReactHome() {
         </Link>
         <Link className="App-link" to="/test2">
           Test 2
+        </Link>
+        <Link className="App-link" to="/testBootstrap">
+          BootStrap Test
         </Link>
         <p>
           Edit <code>src/App.js</code> and save to reload.
