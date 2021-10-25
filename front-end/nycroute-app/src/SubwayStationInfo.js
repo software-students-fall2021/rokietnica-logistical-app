@@ -4,11 +4,12 @@ import Button from 'react-bootstrap/Button';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import SubwayStationInfoItem from './SubwayStationInfoItem.js'
+import "./SubwayStationInfo.css"
 
 const SubwayStationInfo = (props) => {
   // start a state varaible with a blank array
   const [data, setData] = useState([])
-  
+  const [reverse, setReverse] = useState([false, "regularOrder"])
 
   // the following side-effect will be called once upon initial render
   useEffect(() => {
@@ -60,11 +61,21 @@ const SubwayStationInfo = (props) => {
     console.log(data[0])
   }, []) // only run it once!
 
+  function reverseOrdering(e) {
+    e.preventDefault()
+    if (reverse[0]){
+      setReverse([false, "regularOrder"])
+    }
+    else {
+      setReverse([true, "reverseOrder"])
+    }
+  }
 
   return (
     <div className="SubwayStationInfo">
       <h1> 7 Subway Line Info </h1>
-      <Accordion>
+      <Button onClick={reverseOrdering}> Reverse </Button>
+      <Accordion id={reverse[1]}>
         {(data).map((item) => (
           <SubwayStationInfoItem className ="item" key={item.id} details={item} />
         ))}
