@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const theme = {
     blue:{
@@ -38,6 +38,7 @@ const theme = {
 }
 
 const Button = styled.button`
+    background-color: ${props =>theme[props.theme].default};
     border-radius: 20px;
     outline: 0;
     padding: 15px 25px;
@@ -45,148 +46,151 @@ const Button = styled.button`
     color:white;
 `
 Button.defaultProps = {
-    theme: "blue"
+    theme: 'blue'
 };
+
+function clickMe() {
+    alert("You clicked me!");
+}
 
 export default function App() {
     return (
         <>
             <div>
-                <button theme="blue" lineA={clickMe}>
+                <Button theme='blue' onClick={clickMe}>
                     A
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="blue" lineC={clickMe}>
+                <Button theme="blue" onClick={clickMe}>
                     C
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="blue" lineE={clickMe}>
+                <Button theme="blue" onClick={clickMe}>
                     E
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="orange" lineB={clickMe}>
+                <Button theme="orange" onClick={clickMe}>
                     B
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="orange" lineD={clickMe}>
+                <Button theme="orange" onClick={clickMe}>
                     D
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="orange" lineF={clickMe}>
+                <Button theme="orange" onClick={clickMe}>
                     F
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="orange" lineFbox={clickMe}>
+                <Button theme="orange" onClick={clickMe}>
                     [F]
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="orange" lineM={clickMe}>
+                <Button theme="orange" onClick={clickMe}>
                     M
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="green" lineG={clickMe}>
+                <Button theme="green" onClick={clickMe}>
                     G
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="grey" lineL={clickMe}>
+                <Button theme="grey" onClick={clickMe}>
                     L
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="brown" lineJ={clickMe}>
+                <Button theme="brown" onClick={clickMe}>
                     J
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="brown" lineZ={clickMe}>
+                <Button theme="brown" onClick={clickMe}>
                     Z
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="yellow" lineN={clickMe}>
+                <Button theme="yellow" onClick={clickMe}>
                     N
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="yellow" lineQ={clickMe}>
+                <Button theme="yellow" onClick={clickMe}>
                     Q
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="yellow" lineR={clickMe}>
+                <Button theme="yellow" onClick={clickMe}>
                     R
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="yellow" lineW={clickMe}>
+                <Button theme="yellow" onClick={clickMe}>
                     W
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="red" line1={clickMe}>
+                <Button theme="red" onClick={clickMe}>
                     1
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="red" line2={clickMe}>
+                <Button theme="red" onClick={clickMe}>
                     2
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="red" line3={clickMe}>
+                <Button theme="red" onClick={clickMe}>
                     3
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="darkgreen" line4={clickMe}>
+                <Button theme="darkgreen" onClick={clickMe}>
                     4
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="darkgreen" line5={clickMe}>
+                <Button theme="darkgreen" onClick={clickMe}>
                     5
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="darkgreen" line6={clickMe}>
+                <Button theme="darkgreen" onClick={clickMe}>
                     6
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="darkgreen" line6box={clickMe}>
+                <Button theme="darkgreen" onClick={clickMe}>
                     [6]
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="purple" line7={clickMe}>
+                <Button theme="purple" onClick={clickMe}>
                     7
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="purple" line7box={clickMe}>
+                <Button theme="purple" onClick={clickMe}>
                     [7]
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="teal" lineT={clickMe}>
+                <Button theme="teal" onClick={clickMe}>
                     T
-                </button>
+                </Button>
             </div>
             <div>
-                <button theme="shuttle" lineS={clickMe}>
+                <Button theme="shuttle" onClick={clickMe}>
                     S
-                </button>
+                </Button>
             </div>
         </>
     ) ;
 }
-
