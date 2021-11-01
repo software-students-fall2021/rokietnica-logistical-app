@@ -38,7 +38,7 @@ const theme = {
 }
 
 const Button = styled.button`
-    border-radius: 10px;
+    border-radius: 20px;
     outline: 0;
     padding: 15px 25px;
     text-transform: uppercase;
