@@ -16,19 +16,17 @@ const SubwayStation = () => {
       <h1 className="stationName">{station.name}</h1>
       <div className="cardsWrapper">
         {station.lines.map((line) => (
-          <div className="cardWrapper">
-            <Card>
-              <Card.Body>
-                <Card.Title>{line}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Downtown
-                </Card.Subtitle>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Uptown
-                </Card.Subtitle>
-              </Card.Body>
-            </Card>
-          </div>
+          <Card className="cardWrapper">
+            <Card.Body>
+              <Card.Title className="lineTitle">{line}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                Downtown
+              </Card.Subtitle>
+              <Card.Text>2 min</Card.Text>
+              <Card.Subtitle className="mb-2 text-muted">Uptown</Card.Subtitle>
+              <Card.Text>4 min</Card.Text>
+            </Card.Body>
+          </Card>
         ))}
       </div>
     </div>
