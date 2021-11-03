@@ -93,7 +93,7 @@ const stationData = [
     lines: ["A", "B", "C", "1", "2", "3"],
   },
   {
-    name: "Lorem Ispum Dolor Sit Amet",
+    name: "The Final Destination",
     lines: ["A", "B", "C", "1", "2", "3"],
   },
 ];
