@@ -9,7 +9,14 @@ const SubwayStations = () => {
     <div class="stationsWrapper">
       <ListGroup>
         {stationData.map((station) => (
-          <ListGroup.Item>{station.name}</ListGroup.Item>
+          <ListGroup.Item
+            action
+            onClick={() => {
+              alert(`tapped on ${station.name}`);
+            }}
+          >
+            {station.name}
+          </ListGroup.Item>
         ))}
       </ListGroup>
     </div>
