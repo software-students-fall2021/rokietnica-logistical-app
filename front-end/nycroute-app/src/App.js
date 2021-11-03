@@ -8,6 +8,7 @@ import "./App.css";
 import { Test1 } from "./Test1.js";
 import { Test2 } from "./Test2.js";
 import TestBootStrap from "./TestBootStrap.js";
+import SubwayStation from "./SubwayStation";
 
 function App() {
   // add links to your pages for now
@@ -17,6 +18,7 @@ function App() {
       <Route exact path="/test1" component={Test1}></Route>
       <Route exact path="/test2" component={Test2}></Route>
       <Route exact path="/testBootstrap" component={TestBootStrap}></Route>
+      <Route exact path="/stationView" component={SubwayStation}></Route>
     </Switch>
   );
 }
