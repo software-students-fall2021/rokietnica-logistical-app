@@ -1,0 +1,26 @@
+.container {
+  margin: auto;
+  width: 80%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.cardsWrapper {
+  margin: auto;
+  width: 80%;
+}
+
+.cardWrapper {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.stationName {
+  text-align: center;
+  padding-bottom: 1em;
+}
+
+.lineTitle {
+  text-align: center;
+  padding-bottom: 0.25em;
+}

@@ -7,6 +7,7 @@ import "./App.css";
 // import your component functions for use in route links
 import TestBootStrap from "./TestBootStrap.js";
 import SubwayLinesInfo from "./SubwayLinesInfo";
+import SubwayStation from "./SubwayStation";
 import SubwayStations from "./SubwayStations";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route exact path="/testBootstrap" component={TestBootStrap}></Route>
       <Route exact path="/SubwayLinesInfo" component={SubwayLinesInfo}></Route>
       <Route exact path="/stations" component={SubwayStations}></Route>
+      <Route exact path="/stationView" component={SubwayStation}></Route>
     </Switch>
   );
 }
