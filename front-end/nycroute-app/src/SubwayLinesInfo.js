@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SubwayLineInfoItem from "./SubwayLineInfoItem.js";
+import SubwayLinesInfoItem from "./SubwayLinesInfoItem.js";
 import "./SubwayLinesInfo.css";
 
 const SubwayLinesInfo = (props) => {
@@ -14,7 +14,6 @@ const SubwayLinesInfo = (props) => {
   // the following side-effect will be called once upon initial render
   useEffect(() => {
     // fetch some mock data about animals for sale
-    console.log("fetching 10 random animals...");
     axios("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
       .then((response) => {
         // extract the data from the server response
@@ -60,7 +59,6 @@ const SubwayLinesInfo = (props) => {
 
         setData(backupData);
       });
-    console.log(data[0]);
   }, []); // only run it once!
 
   function reverseOrdering(e) {
@@ -75,10 +73,10 @@ const SubwayLinesInfo = (props) => {
   return (
     <div className="SubwayLinesInfo">
       <h1> 7 Subway Line Info </h1>
-      <Button onClick={reverseOrdering}> Reverse </Button>
+      <Button onClick={reverseOrdering} id = "listOrder"> Reverse </Button>
       <Accordion id={reverse[1]}>
         {data.map((item) => (
-          <SubwayLineInfoItem className="item" key={item.id} details={item} />
+          <SubwayLinesInfoItem className="item" key={item.id} details={item} />
         ))}
       </Accordion>
     </div>
