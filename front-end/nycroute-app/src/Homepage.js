@@ -15,12 +15,7 @@ const App = () => {
   };
   
   return (
-    <div
-      style={{
-        marginLeft: "40%",
-      }}
-    >
-      <h2>Welcome to NYCRoute!</h2>
+   <h2>Welcome to NYCRoute!</h2>
       <Button
         aria-controls="simple-menu"
         aria-haspopup="true"
