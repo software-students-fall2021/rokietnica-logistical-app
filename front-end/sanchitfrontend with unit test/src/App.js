@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Dimensions, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, FlatList, ActivityIndicator } from 'react-native-web';
 import logo from './logo.svg';
 import './App.css';
 const axios = require('axios');
@@ -11,9 +11,70 @@ export default class App extends React.Component {
       super(props);
       this.state =
       { 
-        isLoading: true, 
+        isLoading: false, 
       }
     }
+
+    componentDidMount() {
+      var line01 = "<name>123";
+      var line02 = "<name>456";
+      var line03 = "<name>7";
+      var line04 = "<name>ACE";
+      var line05 = "<name>BDFM";
+      var line06 = "<name>G";
+      var line07 = "<name>JZ";
+      var line08 = "<name>L";
+      var line09 = "<name>NQR";
+      var line10 = "<name>S";
+      var line11 = "<name>SIR";
+    
+        axios.get('http://web.mta.info/status/serviceStatus.txt')
+        .then(response => {
+        const plainSource = JSON.stringify(response.data);
+        const location01 = JSON.stringify(response.data).indexOf(line01) + 32;
+        const location02 = JSON.stringify(response.data).indexOf(line02) + 32;
+        const location03 = JSON.stringify(response.data).indexOf(line03) + 30;
+        const location04 = JSON.stringify(response.data).indexOf(line04) + 32;
+        const location05 = JSON.stringify(response.data).indexOf(line05) + 33;
+        const location06 = JSON.stringify(response.data).indexOf(line06) + 30;
+        const location07 = JSON.stringify(response.data).indexOf(line07) + 31;
+        const location08 = JSON.stringify(response.data).indexOf(line08) + 30;
+        const location09 = JSON.stringify(response.data).indexOf(line09) + 32;
+        const location10 = JSON.stringify(response.data).indexOf(line10) + 30;
+        const location11 = JSON.stringify(response.data).indexOf(line11) + 32;
+        const text01 = plainSource.slice([location01], location01+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text02 = plainSource.slice([location02], location02+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text03 = plainSource.slice([location03], location03+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text04 = plainSource.slice([location04], location04+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text05 = plainSource.slice([location05], location05+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text06 = plainSource.slice([location06], location06+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text07 = plainSource.slice([location07], location07+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text08 = plainSource.slice([location08], location08+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text09 = plainSource.slice([location09], location09+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text10 = plainSource.slice([location10], location10+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+        const text11 = plainSource.slice([location11], location11+16).replace('</status>',"").replace("</sta", "").replace("</st", "").replace("</s", "").replace("</", "").replace("<", "").replace("\\", "");
+    
+          this.setState({ 
+            plainSource: JSON.stringify(response.data),
+            text01: text01,
+            text02: text02,
+            text03: text03,
+            text04: text04,
+            text05: text05,
+            text06: text06,
+            text07: text07,
+            text08: text08,
+            text09: text09,
+            text10: text10,
+            text11: text11,
+            isLoading: false,
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    
+      }
   
     render(){
       const { 
