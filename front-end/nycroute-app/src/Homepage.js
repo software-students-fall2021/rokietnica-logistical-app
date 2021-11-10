@@ -1,9 +1,30 @@
 import React from "react";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
+import { Switch, Route, Link } from "react-router-dom";
+
+import "./Homepage.css"
+
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+
+// import your component functions for use in route links
+import SubwayLinesInfo from "./SubwayLinesInfo";
+import SubwayStation from "./SubwayStation";
+import SubwayStations from "./SubwayStations";
+
+function App() {
+  // add links to your pages for now
+  return (
+    <Switch>
+      <Route exact path="/" component={Homepage}></Route>
+      <Route exact path="/SubwayLinesInfo" component={SubwayLinesInfo}></Route>
+      <Route exact path="/stations" component={SubwayStations}></Route>
+      <Route exact path="/stationView" component={SubwayStation}></Route>
+    </Switch>
+  );
+}
   
-const App = () => {
+const Homepage = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   
   const handleClose = () => {
@@ -15,6 +36,7 @@ const App = () => {
   };
   
   return (
+    <div>
    <h2>Welcome to NYCRoute!</h2>
       <Button
         aria-controls="simple-menu"
@@ -30,7 +52,7 @@ const App = () => {
         open={Boolean(anchorEl)}
       >
         <MenuItem onClick={handleClose}>Map View</MenuItem>
-        <MenuItem onClick={handleClose}>List of Stations</MenuItem>
+        <Link className="App-link" to="/stations"> <MenuItem onClick={handleClose}>List of Stations</MenuItem> </Link>
         <MenuItem onClick={handleClose}>List of Subway Lines</MenuItem>
       </Menu>
     </div>
