@@ -30,7 +30,8 @@ function Lines() {
             <div className="grid-item-purple">7</div>
             <div className="grid-item-teal">T</div>
             <div className="grid-item-shuttle">S</div>
-
         </div>
         );
 }
+
+export default Subwaylines;
