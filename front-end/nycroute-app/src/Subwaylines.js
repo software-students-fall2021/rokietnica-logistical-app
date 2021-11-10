@@ -1,37 +1,74 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
+import SubwayIcon from "./SubwayIcon";
+import NavBar from "./NavBar";
 
+import "./Subwaylines.css";
 
 function Lines() {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        // fetch some mock data about animals for sale
+        axios("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
+          .then((response) => {
+            // extract the data from the server response
+            setData(response.data);
+          })
+          .catch((err) => {
+            // Mockaroo, which we're using for our Mock API, only allows 200 requests per day on the free plan
+            console.log(`Sorry, buster.  No more requests allowed today!`);
+            console.error(err); // the server returned an error... probably too many requests... until we pay!
+    
+            // make some backup fake data
+            const backupData = [
+              {
+                id : 1,
+                line: "1",
+                stations: [
+                  {
+                    id: 1,
+                    name: "first",
+                    uptown: "[4, 5, 6]",
+                    downtown: "[2, 4, 7, 10]",
+                  },
+                  {
+                    id: 2,
+                    name: "second",
+                    uptown: "[5]",
+                    downtown: "[2, 5]",
+                  },
+                  {
+                    id: 3,
+                    name: "third",
+                    uptown: "[4,5,6,7]",
+                    downtown: "[4,5,6,7]",
+                  },
+                  {
+                    id: 4,
+                    name: "fourth",
+                    uptown: "[2, 5]",
+                    downtown: "[5]",
+                  },
+                ],
+              },
+            ];
+    
+            setData(backupData);
+          });
+      }, []); 
     return (
-        <div className="grid-container">
-            <div className="grid-item-blue">A</div>
-            <div className="grid-item-blue">C</div>
-            <div className="grid-item-blue">E</div>
-            <div className="grid-item-orange">B</div>
-            <div className="grid-item-orange">D</div>
-            <div className="grid-item-orange">F</div>
-            <div className="grid-item-orange">M</div>
-            <div className="grid-item-green">G</div>
-            <div className="grid-item-grey">L</div>
-            <div className="grid-item-brown">J</div>
-            <div className="grid-item-yellow">Z</div>
-            <div className="grid-item-yellow">N</div>
-            <div className="grid-item-yellow">Q</div>
-            <div className="grid-item-yellow">R</div>
-            <div className="grid-item-red">W</div>
-            <div className="grid-item-red">1</div>
-            <div className="grid-item-red">2</div>
-            <div className="grid-item-darkgreen">3</div>
-            <div className="grid-item-darkgreen">4</div>
-            <div className="grid-item-darkgreen">5</div>
-            <div className="grid-item-purple">6</div>
-            <div className="grid-item-purple">7</div>
-            <div className="grid-item-teal">T</div>
-            <div className="grid-item-shuttle">S</div>
+        <div>
+            <NavBar/>
+            <div className = "mainContent">
+                <div className="grid-container">
+                    {data.map((item) => (
+                        <SubwayIcon key = {item.id} details = {item}/>
+                    ))}
+                </div>
+            </div>
         </div>
         );
 }
 
-export default Subwaylines;
+export default Lines;
