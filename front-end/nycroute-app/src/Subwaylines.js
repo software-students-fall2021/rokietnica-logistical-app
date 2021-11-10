@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import SubwayIcon from "./SubwayIcon";
-import NavBar from "./NavBar";
 
 import "./Subwaylines.css";
 
@@ -58,16 +57,11 @@ function Lines() {
           });
       }, []); 
     return (
-        <div>
-            <NavBar/>
-            <div className = "mainContent">
-                <div className="grid-container">
-                    {data.map((item) => (
-                        <SubwayIcon key = {item.id} details = {item}/>
-                    ))}
-                </div>
-            </div>
-        </div>
+      <div className="grid-container">
+          {data.map((item) => (
+              <SubwayIcon key = {item.id} details = {item}/>
+          ))}
+      </div>
         );
 }
 

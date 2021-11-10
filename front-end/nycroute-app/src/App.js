@@ -2,11 +2,17 @@ import React from "react";
 
 import "./App.css";
 import Homepage from "./Homepage";
+import NavBar from "./NavBar";
 
 function App() {
   // add links to your pages for now
   return (
-    <Homepage />
+    <div>
+      <NavBar />
+      <div className = "mainContent">
+        <Homepage />
+      </div>
+    </div>
   );
 }
 

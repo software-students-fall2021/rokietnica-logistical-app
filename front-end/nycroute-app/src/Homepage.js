@@ -12,7 +12,6 @@ import SubwayLinesInfo from "./SubwayLinesInfo";
 import SubwayStation from "./SubwayStation";
 import SubwayStations from "./SubwayStations";
 import Subwaylines from "./Subwaylines";
-import NavBar from "./NavBar";
 
 function App() {
   // add links to your pages for now
@@ -40,8 +39,6 @@ const Homepage = () => {
   
   return (
     <div>
-      <NavBar />
-      <div className = "mainContent">
       <h2>Welcome to NYCRoute!</h2>
       <Button
         aria-controls="simple-menu"
@@ -60,7 +57,6 @@ const Homepage = () => {
         <Link className="App-link" to="/stations"> <MenuItem onClick={handleClose}>List of Stations</MenuItem> </Link>
         <Link className="App-link" to="/lines"> <MenuItem onClick={handleClose}>List of Subway Lines</MenuItem></Link>
       </Menu>
-      </div>
     </div>
   );
 };

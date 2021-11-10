@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SubwayLinesInfoItem from "./SubwayLinesInfoItem.js";
-import NavBar from "./NavBar";
 import "./SubwayLinesInfo.css";
 
 const SubwayLinesInfo = (props) => {
@@ -77,8 +76,6 @@ const SubwayLinesInfo = (props) => {
 
   return (
     <div>
-      <NavBar />
-      <div className="mainContent">
         <h1> {dataStation.line} Line Info </h1>
         <Button onClick={reverseOrdering} id = "listOrder"> Reverse </Button>
         <Accordion id={reverse[1]}>
@@ -86,7 +83,6 @@ const SubwayLinesInfo = (props) => {
             <SubwayLinesInfoItem className="item" key={item.id} details={item} />
           ))}
         </Accordion>
-      </div>
     </div>
   );
 };
