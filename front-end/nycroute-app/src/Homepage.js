@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 
-import "./Homepage.css"
+import "./Homepage.css";
 
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -20,23 +20,24 @@ function App() {
       <Route exact path="/" component={Homepage}></Route>
       <Route path="/subwayLinesInfo/:id" component={SubwayLinesInfo}></Route>
       <Route exact path="/stations" component={SubwayStations}></Route>
+      <Route path="/stations/:id" component={SubwayStation}></Route>
       <Route exact path="/stationView" component={SubwayStation}></Route>
       <Route exact path="/lines" component={Subwaylines}></Route>
     </Switch>
   );
 }
-  
+
 const Homepage = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   return (
     <div>
       <h2>Welcome to NYCRoute!</h2>
@@ -54,11 +55,17 @@ const Homepage = () => {
         open={Boolean(anchorEl)}
       >
         <MenuItem onClick={handleClose}>Map View</MenuItem>
-        <Link className="App-link" to="/stations"> <MenuItem onClick={handleClose}>List of Stations</MenuItem> </Link>
-        <Link className="App-link" to="/lines"> <MenuItem onClick={handleClose}>List of Subway Lines</MenuItem></Link>
+        <Link className="App-link" to="/stations">
+          {" "}
+          <MenuItem onClick={handleClose}>List of Stations</MenuItem>{" "}
+        </Link>
+        <Link className="App-link" to="/lines">
+          {" "}
+          <MenuItem onClick={handleClose}>List of Subway Lines</MenuItem>
+        </Link>
       </Menu>
     </div>
   );
 };
-  
+
 export default App;
