@@ -1,19 +1,30 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 import "./SubwayStation.css";
+import stationData from "./stationData";
 
-// temp mock data for a single station
-// needs to be extracted from props
-const station = {
-  name: "Astor Pl",
-  lines: ["4", "5", "6", "A", "B", "C", "1", "2", "3"],
-};
+const SubwayStation = (props) => {
+  const stationID = props.match.params.id;
+  let station;
 
-const SubwayStation = () => {
+  // find station with matching id, assuming array format
+  for (let st of stationData) {
+    if (st.id == stationID) {
+      station = st;
+    }
+  }
+
   return (
     <div className="container">
       <h1 className="stationName">{station.name}</h1>
+      <div className="backBtnWrapper">
+        <Link className="App-link" to={`/stations`}>
+          <Button variant="danger">Back</Button>
+        </Link>
+      </div>
       <div className="cardsWrapper">
         {station.lines.map((line) => (
           <Card className="cardWrapper">
