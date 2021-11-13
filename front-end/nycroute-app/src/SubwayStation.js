@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 import "./SubwayStation.css";
 import stationData from "./stationData";
@@ -18,6 +20,11 @@ const SubwayStation = (props) => {
   return (
     <div className="container">
       <h1 className="stationName">{station.name}</h1>
+      <div className="backBtnWrapper">
+        <Link className="App-link" to={`/stations`}>
+          <Button variant="danger">Back</Button>
+        </Link>
+      </div>
       <div className="cardsWrapper">
         {station.lines.map((line) => (
           <Card className="cardWrapper">
