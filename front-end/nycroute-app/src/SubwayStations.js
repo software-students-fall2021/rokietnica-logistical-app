@@ -12,7 +12,7 @@ const SubwayStations = () => {
       <h1>Stations</h1>
       <Dropdown className="filter">
         <Dropdown.Toggle variant="info" id="dropdown-basic">
-          Filter by Bourough
+          Filter by Borough
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
