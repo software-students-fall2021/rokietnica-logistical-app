@@ -32,6 +32,14 @@ const SubwayStation = (props) => {
     return <div></div>;
   }
 
+  if (!station) {
+    return (
+      <div className="no-station">
+        No station with the specified ID was found.
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <h1 className="stationName">{station["Stop Name"]}</h1>
