@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./SubwayStations.css";
-import stationData from "./stationData";
 
 const SubwayStations = () => {
-  stationData.sort((a, b) => (a.name >= b.name ? 1 : -1));
+  const [stations, setStations] = useState([]);
+  useEffect(() => {
+    axios("http://localhost:4000/stationData")
+      .then((res) => {
+        setStations(
+          res.data.stations.sort((a, b) =>
+            a["Stop Name"] >= b["Stop Name"] ? 1 : -1
+          )
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <div>
       <h1>Stations</h1>
       <ListGroup className="stationsWrapper">
-        {stationData.map((station) => (
-          <Link className="App-link" to={`/stations/${station.id}`}>
-            <ListGroup.Item action>{station.name}</ListGroup.Item>
+        {stations.map((st) => (
+          <Link className="App-link" to={`/stations/${st["Station ID"]}`}>
+            <ListGroup.Item action>{st["Stop Name"]}</ListGroup.Item>
           </Link>
         ))}
       </ListGroup>
