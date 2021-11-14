@@ -18,7 +18,6 @@ const SubwayStation = (props) => {
     setLoading(true);
     axios(`http://localhost:4000/station/${stationID}`)
       .then((res) => {
-        console.log(res.data);
         setStation(res.data);
       })
       .catch((err) => {
