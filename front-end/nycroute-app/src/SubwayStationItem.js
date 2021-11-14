@@ -1,6 +1,8 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
-import "./LineCard.css";
+import ListGroup from "react-bootstrap/ListGroup";
+import { Link } from "react-router-dom";
+
+import "./SubwayStationItem.css";
 
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
@@ -67,29 +69,26 @@ const mapping = {
   z: Line_z,
 };
 
-const LineCard = (props) => {
-  const Icon = mapping[props.line.toLowerCase()];
+const SubwayStationItem = (props) => {
   return (
-    <Card className="cardWrapper">
-      <Card.Body>
-        <div className="lineIconWrapper">
-          <Icon height="30" width="30" />
-        </div>
-        <div className="directionWrapper">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Downtown
-          </Card.Subtitle>
-          <Card.Text className="arrival">2 min</Card.Text>
-        </div>
-        <div className="directionWrapper">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Uptown
-          </Card.Subtitle>
-          <Card.Text className="arrival">12 min</Card.Text>
-        </div>
-      </Card.Body>
-    </Card>
+    <Link className="App-link" to={`/stations/${props.station["Station ID"]}`}>
+      <div className="contentWrapper">
+        <ListGroup.Item key={props.station["Station ID"]} action>
+          {props.station["Stop Name"]}
+          <div className="iconsWrapper">
+            {props.station["Daytime Routes"].map((line) => {
+              const Icon = mapping[line.toLowerCase()];
+              return (
+                <div className="icon">
+                  <Icon height="20" width="20" />
+                </div>
+              );
+            })}
+          </div>
+        </ListGroup.Item>
+      </div>
+    </Link>
   );
 };
 
-export default LineCard;
+export default SubwayStationItem;

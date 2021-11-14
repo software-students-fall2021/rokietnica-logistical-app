@@ -1,0 +1,16 @@
+.contentWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.iconsWrapper {
+  padding-left: 2px;
+  display: flex;
+  justify-content: end;
+  float: right;
+}
