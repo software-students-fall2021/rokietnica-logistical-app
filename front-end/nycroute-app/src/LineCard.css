@@ -1,0 +1,21 @@
+.lineIcon {
+  display: center;
+  padding-bottom: 0.25em;
+}
+
+.cardWrapper {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.lineIconWrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0.5em;
+}
+
+.directionWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
