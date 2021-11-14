@@ -9,7 +9,9 @@ import { ReactComponent as Line_3 } from "./line_icons/3.svg";
 import { ReactComponent as Line_4 } from "./line_icons/4.svg";
 import { ReactComponent as Line_5 } from "./line_icons/5.svg";
 import { ReactComponent as Line_6 } from "./line_icons/6.svg";
+import { ReactComponent as Line_6d } from "./line_icons/6d.svg";
 import { ReactComponent as Line_7 } from "./line_icons/7.svg";
+import { ReactComponent as Line_7d } from "./line_icons/7d.svg";
 import { ReactComponent as Line_a } from "./line_icons/a.svg";
 import { ReactComponent as Line_b } from "./line_icons/b.svg";
 import { ReactComponent as Line_c } from "./line_icons/c.svg";
@@ -25,6 +27,9 @@ import { ReactComponent as Line_n } from "./line_icons/n.svg";
 import { ReactComponent as Line_q } from "./line_icons/q.svg";
 import { ReactComponent as Line_r } from "./line_icons/r.svg";
 import { ReactComponent as Line_s } from "./line_icons/s.svg";
+import { ReactComponent as Line_sf } from "./line_icons/sf.svg";
+import { ReactComponent as Line_sir } from "./line_icons/sir.svg";
+import { ReactComponent as Line_sr } from "./line_icons/sr.svg";
 import { ReactComponent as Line_t } from "./line_icons/t.svg";
 import { ReactComponent as Line_w } from "./line_icons/w.svg";
 import { ReactComponent as Line_z } from "./line_icons/z.svg";
@@ -36,7 +41,9 @@ const mapping = {
   4: Line_4,
   5: Line_5,
   6: Line_6,
+  "6d": Line_6d,
   7: Line_7,
+  "7d": Line_7d,
   a: Line_a,
   b: Line_b,
   c: Line_c,
@@ -52,6 +59,9 @@ const mapping = {
   q: Line_q,
   r: Line_r,
   s: Line_s,
+  sf: Line_sf,
+  sir: Line_sir,
+  sr: Line_sr,
   t: Line_t,
   w: Line_w,
   z: Line_z,
