@@ -26,7 +26,9 @@ const SubwayStations = () => {
       <ListGroup className="stationsWrapper">
         {stations.map((st) => (
           <Link className="App-link" to={`/stations/${st["Station ID"]}`}>
-            <ListGroup.Item action>{st["Stop Name"]}</ListGroup.Item>
+            <ListGroup.Item key={st["Station ID"]} action>
+              {st["Stop Name"]}
+            </ListGroup.Item>
           </Link>
         ))}
       </ListGroup>
