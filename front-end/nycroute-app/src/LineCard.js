@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import "./LineCard.css";
 
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
@@ -61,13 +62,21 @@ const LineCard = (props) => {
   return (
     <Card className="cardWrapper">
       <Card.Body>
-        <Card.Title className="lineTitle">
+        <div className="lineIconWrapper">
           <Icon height="25" width="25" />
-        </Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Downtown</Card.Subtitle>
-        <Card.Text>2 min</Card.Text>
-        <Card.Subtitle className="mb-2 text-muted">Uptown</Card.Subtitle>
-        <Card.Text>4 min</Card.Text>
+        </div>
+        <div className="directionWrapper">
+          <Card.Subtitle className="mb-2 text-muted direction">
+            Downtown
+          </Card.Subtitle>
+          <Card.Text className="arrival">2 min</Card.Text>
+        </div>
+        <div className="directionWrapper">
+          <Card.Subtitle className="mb-2 text-muted direction">
+            Uptown
+          </Card.Subtitle>
+          <Card.Text className="arrival">12 min</Card.Text>
+        </div>
       </Card.Body>
     </Card>
   );
