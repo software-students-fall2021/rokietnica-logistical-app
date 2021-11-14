@@ -32,13 +32,10 @@ app.get("/stationData", (req, res) => {
   res.json(stationData);
 });
 
-app.get("/station", (req, res) => {
-  /*
+app.get("/station/:id", (req, res) => {
   const station = stationData.stations.filter(
     (st) => st["Station ID"] == req.params.id
   );
-  console.log(station[0]);
-  **/
   res.json(station[0]);
 });
 
