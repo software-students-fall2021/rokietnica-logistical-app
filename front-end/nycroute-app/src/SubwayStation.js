@@ -26,7 +26,7 @@ const SubwayStation = (props) => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [stationID]);
 
   if (loading) {
     return <div></div>;
