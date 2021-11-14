@@ -50,7 +50,7 @@ const SubwayStation = (props) => {
       </div>
       <div className="cardsWrapper">
         {station["Daytime Routes"].map((line) => {
-          return <LineCard line={line} />;
+          return <LineCard key={line} line={line} />;
         })}
       </div>
     </div>
