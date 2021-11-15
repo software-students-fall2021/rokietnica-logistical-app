@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
+import SubwayStationItem from "./SubwayStationItem";
 import "./SubwayStations.css";
-import stationData from "./stationData";
 
 const SubwayStations = () => {
-  stationData.sort((a, b) => (a.name >= b.name ? 1 : -1));
+  const [stations, setStations] = useState([
+    { "Station ID": "", "Stop Name": "", "Daytime Routes": [] },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios("http://localhost:4000/stationData")
+      .then((res) => {
+        setStations(
+          res.data.stations.sort((a, b) =>
+            a["Stop Name"] >= b["Stop Name"] ? 1 : -1
+          )
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <h1>Stations</h1>;
+  }
+
   return (
     <div>
       <h1>Stations</h1>
       <ListGroup className="stationsWrapper">
-        {stationData.map((station) => (
-          <Link className="App-link" to={`/stations/${station.id}`}>
-            <ListGroup.Item action>{station.name}</ListGroup.Item>
-          </Link>
-        ))}
+        {stations.map((st) => {
+          return <SubwayStationItem station={st} />;
+        })}
       </ListGroup>
     </div>
   );

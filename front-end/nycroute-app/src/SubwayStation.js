@@ -1,33 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
-import stationData from "./stationData";
 
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
-  let station;
+  const [station, setStation] = useState({
+    "Stop Name": "",
+    "Daytime Routes": [],
+  });
+  const [loading, setLoading] = useState(false);
 
-  // find station with matching id, assuming array format
-  for (let st of stationData) {
-    if (st.id == stationID) {
-      station = st;
-    }
+  useEffect(() => {
+    setLoading(true);
+    axios(`http://localhost:4000/station/${stationID}`)
+      .then((res) => {
+        setStation(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [stationID]);
+
+  if (loading) {
+    return <div></div>;
+  }
+
+  if (!station) {
+    return (
+      <div className="no-station">
+        No station with the specified ID was found.
+      </div>
+    );
   }
 
   return (
     <div className="container">
-      <h1 className="stationName">{station.name}</h1>
+      <h1 className="stationName">{station["Stop Name"]}</h1>
       <div className="backBtnWrapper">
         <Link className="App-link" to="/stations">
           <Button variant="danger">Back</Button>
         </Link>
       </div>
       <div className="cardsWrapper">
-        {station.lines.map((line) => {
-          return <LineCard line={line} />;
+        {station["Daytime Routes"].map((line) => {
+          return <LineCard key={line} line={line} />;
         })}
       </div>
     </div>
