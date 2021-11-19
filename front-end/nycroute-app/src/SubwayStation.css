@@ -1,7 +1,6 @@
 .container {
   margin: auto;
   width: 80%;
-  padding-top: 2em;
   padding-bottom: 2em;
 }
 
@@ -10,17 +9,19 @@
   width: 80%;
 }
 
-.cardWrapper {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
 .stationName {
   text-align: center;
   padding-bottom: 1em;
 }
 
-.lineTitle {
+.backBtnWrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1em;
+}
+
+.no-station {
+  margin: auto;
+  width: 90%;
   text-align: center;
-  padding-bottom: 0.25em;
 }

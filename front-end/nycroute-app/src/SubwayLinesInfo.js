@@ -9,7 +9,10 @@ import "./SubwayLinesInfo.css";
 const SubwayLinesInfo = (props) => {
   // start a state varaible with a blank array
   const [data, setData] = useState([]);
+  const [dataStation, setDataStation] = useState([]);
   const [reverse, setReverse] = useState([false, "regularOrder"]);
+
+  const subwayId = props.match.params.id;
 
   // the following side-effect will be called once upon initial render
   useEffect(() => {
@@ -17,7 +20,8 @@ const SubwayLinesInfo = (props) => {
     axios("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
       .then((response) => {
         // extract the data from the server response
-        setData(response.data[0].stations);
+        setDataStation(response.data[subwayId-1]);
+        setData(response.data[subwayId - 1].stations);
       })
       .catch((err) => {
         // Mockaroo, which we're using for our Mock API, only allows 200 requests per day on the free plan
@@ -59,7 +63,7 @@ const SubwayLinesInfo = (props) => {
 
         setData(backupData);
       });
-  }, []); // only run it once!
+  }, [subwayId]); // only run it once!
 
   function reverseOrdering(e) {
     e.preventDefault();
@@ -71,14 +75,14 @@ const SubwayLinesInfo = (props) => {
   }
 
   return (
-    <div className="SubwayLinesInfo">
-      <h1> 7 Subway Line Info </h1>
-      <Button onClick={reverseOrdering} id = "listOrder"> Reverse </Button>
-      <Accordion id={reverse[1]}>
-        {data.map((item) => (
-          <SubwayLinesInfoItem className="item" key={item.id} details={item} />
-        ))}
-      </Accordion>
+    <div>
+        <h1> {dataStation.line} Line Info </h1>
+        <Button onClick={reverseOrdering} id = "listOrder"> Reverse </Button>
+        <Accordion id={reverse[1]}>
+          {data.map((item) => (
+            <SubwayLinesInfoItem className="item" key={item.id} details={item} />
+          ))}
+        </Accordion>
     </div>
   );
 };
