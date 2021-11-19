@@ -12,7 +12,7 @@ const NavBar = () => {
             </Link>
         </Navbar.Collapse> 
         <Navbar.Collapse className="justify-content-end">
-            <Link className = "App-link" to="/">
+            <Link className = "App-link" to="/login">
                 <Navbar.Brand > Sign Up </Navbar.Brand>
             </Link>
         </Navbar.Collapse> 

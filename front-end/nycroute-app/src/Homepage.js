@@ -12,17 +12,21 @@ import SubwayLinesInfo from "./SubwayLinesInfo";
 import SubwayStation from "./SubwayStation";
 import SubwayStations from "./SubwayStations";
 import Subwaylines from "./Subwaylines";
+import Login from "./Login.js"; 
 
 function App() {
   // add links to your pages for now
   return (
     <Switch>
-      <Route exact path="/" component={Homepage}></Route>
+      <Route exact path="/" component={Login}></Route>
       <Route path="/subwayLinesInfo/:id" component={SubwayLinesInfo}></Route>
-      <Route exact path="/stations" component={SubwayStations}></Route>
+      <Route exact path="/stations" component=
+      
+      {SubwayStations}></Route>
       <Route path="/stations/:id" component={SubwayStation}></Route>
       <Route exact path="/stationView" component={SubwayStation}></Route>
       <Route exact path="/lines" component={Subwaylines}></Route>
+      <Route exact path="/login" component={Login}></Route> 
     </Switch>
   );
 }
