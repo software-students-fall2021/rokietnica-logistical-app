@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Navigate, useSearchParams } from "react-router-dom"
 import axios from "axios"
 
-const Login = props => {
+const Signup = props => {
     let [urlSearchParams] = useSearchParams() // get access to the URL query string parameters
   
     // create state variables to hold username and password
