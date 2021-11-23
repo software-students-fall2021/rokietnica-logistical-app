@@ -2,6 +2,10 @@
 const express = require("express"); // CommonJS import style!
 const axios = require("axios"); // middleware for making requests to APIs
 const app = express(); // instantiate an Express object
+const parseCSV = require("./parseCSV");
+
+const fs = require("fs");
+
 
 const stationData = require("./stations");
 
@@ -29,8 +33,23 @@ app.get("/apiCallTest", (req, res, next) => {
 });
 
 app.get("/stationData", (req, res) => {
-  res.json(stationData);
-});
+  
+  axios
+    .get("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
+    .then(response=>{
+      
+      
+    stationData.parse(response.data);
+
+     //console.log(response.data);
+     res.json(stationData);
+     
+  })
+  .catch(error=>{
+    console.log(error);
+    res.send(error);
+  })
+})
 
 app.get("/station/:id", (req, res) => {
   const station = stationData.stations.filter(
