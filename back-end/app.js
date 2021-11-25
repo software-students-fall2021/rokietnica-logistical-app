@@ -35,13 +35,18 @@ app.get("/apiCallTest", (req, res, next) => {
 app.get("/stationData", (req, res) => {
   
   axios
-    .get("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
+    .get("http://demo6882294.mockable.io/stations")
     .then(response=>{
       
       
-    stationData.parse(response.data);
-
-     //console.log(response.data);
+    //stationData.parse(response.data);
+    stationData.columns = response.data[0];
+    stationData.stations = response.data;
+    for(var i  = 0; i < stationData.stations.length;i++){
+      var station = stationData.stations[i];
+      station["Daytime Routes"] = station["Daytime Routes"].toString().split(" ");
+    }
+    
      res.json(stationData);
      
   })
