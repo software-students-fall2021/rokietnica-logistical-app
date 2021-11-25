@@ -3,7 +3,7 @@ var express = require('express');
 var expressApp = express();
 
 const assert = require('chai').assert;
-const Subway = require('./App');
+
 
 describe('app js test', function() {
     describe('GET /stationData', function() {
