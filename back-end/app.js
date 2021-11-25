@@ -2,6 +2,10 @@
 const express = require("express"); // CommonJS import style!
 const axios = require("axios"); // middleware for making requests to APIs
 const app = express(); // instantiate an Express object
+const parseCSV = require("./parseCSV");
+
+const fs = require("fs");
+
 
 const stationData = require("./stations");
 
@@ -29,8 +33,28 @@ app.get("/apiCallTest", (req, res, next) => {
 });
 
 app.get("/stationData", (req, res) => {
-  res.json(stationData);
-});
+  
+  axios
+    .get("http://demo6882294.mockable.io/stations")
+    .then(response=>{
+      
+      
+    //stationData.parse(response.data);
+    stationData.columns = response.data[0];
+    stationData.stations = response.data;
+    for(var i  = 0; i < stationData.stations.length;i++){
+      var station = stationData.stations[i];
+      station["Daytime Routes"] = station["Daytime Routes"].toString().split(" ");
+    }
+    
+     res.json(stationData);
+     
+  })
+  .catch(error=>{
+    console.log(error);
+    res.send(error);
+  })
+})
 
 app.get("/station/:id", (req, res) => {
   const station = stationData.stations.filter(

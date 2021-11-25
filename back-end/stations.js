@@ -1,9 +1,6 @@
 const fs = require("fs");
 const parseCSV = require("./parseCSV");
 
-// parse Stations.csv
-const stations_csv_str = fs.readFileSync("Stations.csv").toString();
-const stationData = parseCSV(stations_csv_str);
 
 /**
  * Relevant columns:
@@ -15,17 +12,11 @@ const stationData = parseCSV(stations_csv_str);
  *   - South Direction Label (Downtown)
  *   If a direction label are empty, then it is a terminal station for that direction
  */
-const columns = stationData[0];
-stationData.shift();
 
-const stations = stationData.map((row) => {
-  const station = {};
-  for (let i = 0; i < columns.length; i++) {
-    station[columns[i]] = row[i];
-  }
-  station["Daytime Routes"] = station["Daytime Routes"].split(" ");
-  return station;
-});
+
+var columns = "";
+var stations= {"message": "Hello"};
+
 
 const boroughCode = {
   Q: "Queens",
@@ -34,6 +25,8 @@ const boroughCode = {
   Bx: "Bronx",
   SI: "Staten Island",
 };
+
+
 
 module.exports = {
   columns,
