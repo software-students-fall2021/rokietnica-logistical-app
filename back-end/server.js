@@ -10,12 +10,6 @@ const listener = server.listen(port, function () {
 const close = () => {
   listener.close();
 };
-require("dotenv").config({ silent: true })
-const mongoose = require("mongoose");
-const db_url = process.env.MONGO_DB_URL;
-mongoose.connect(db_url, () =>{
-  console.log("DB connection state: " + mongoose.connection.readyState);
-});
 
 module.exports = {
   close: close,
