@@ -18,7 +18,12 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+require("dotenv").config({ silent: true })
+const mongoose = require("mongoose");
+const db_url = process.env.MONGO_DB_URL;
+mongoose.connect(db_url, () =>{
+  console.log("DB connection state: " + mongoose.connection.readyState);
+});
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
   res.send("Goodbye world!");
