@@ -8,6 +8,10 @@
   margin-bottom: 0.75em;
 }
 
+.cardBody {
+  margin-bottom: -0.5em; /* reduce the space between the last text line and bottom of card*/
+}
+
 .lineIconWrapper {
   display: flex;
   justify-content: center;
@@ -28,5 +32,5 @@
 
 .directionWrapper {
   padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding-bottom: 0.25em;
 }

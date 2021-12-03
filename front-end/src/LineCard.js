@@ -71,7 +71,7 @@ const LineCard = (props) => {
   const Icon = mapping[props.line.toLowerCase()];
   return (
     <Card className="cardWrapper">
-      <Card.Body>
+      <Card.Body className="cardBody">
         <div className="lineIconWrapper">
           <Icon height="30" width="30" />
         </div>
@@ -91,17 +91,19 @@ const LineCard = (props) => {
           </div>
         </div>
 
-        <div className="firstTrain">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Uptown
-          </Card.Subtitle>
-          <Card.Text>Arriving now</Card.Text>
-        </div>
-        <div className="extraTrain">
-          <Card.Text>5 min</Card.Text>
-        </div>
-        <div className="extraTrain">
-          <Card.Text>10 min</Card.Text>
+        <div className="directionWrapper">
+          <div className="firstTrain">
+            <Card.Subtitle className="mb-2 text-muted direction">
+              Uptown
+            </Card.Subtitle>
+            <Card.Text>Arriving now</Card.Text>
+          </div>
+          <div className="extraTrain">
+            <Card.Text>5 min</Card.Text>
+          </div>
+          <div className="extraTrain">
+            <Card.Text>10 min</Card.Text>
+          </div>
         </div>
       </Card.Body>
     </Card>
