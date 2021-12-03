@@ -67,43 +67,60 @@ const mapping = {
   z: Line_z,
 };
 
+const displayTrainTimes = (times, direction) => {
+  // if no trains, possible next train is over 60 min away (MTAPI is set to fetch trains within 60 min arrival)
+  if (times.length == 0) {
+    return (
+      <div className="firstTrain">
+        <Card.Subtitle className="mb-2 text-muted direction">
+          {direction}
+        </Card.Subtitle>
+        <Card.Text>None next hour</Card.Text>
+      </div>
+    );
+  } else {
+    let elements = [];
+    let limit = times.length < 3 ? times.length : 3; // display up to three trains
+    for (let i = 0; i < limit; i++) {
+      let element;
+      if (i == 0) {
+        let text = times[i] == 0 ? "Arriving now" : `${times[i]} min`;
+        element = (
+          <div className="firstTrain" key={i}>
+            <Card.Subtitle className="mb-2 text-muted direction">
+              {direction}
+            </Card.Subtitle>
+            <Card.Text>{text}</Card.Text>
+          </div>
+        );
+      } else {
+        element = (
+          <div className="extraTrain">
+            <Card.Text>{times[i]} min</Card.Text>
+          </div>
+        );
+      }
+      elements.push(element);
+    }
+    return elements;
+  }
+};
+
 const LineCard = (props) => {
   const Icon = mapping[props.line.toLowerCase()];
+  const traintimes = props.traintimes;
+
   return (
     <Card className="cardWrapper">
       <Card.Body className="cardBody">
         <div className="lineIconWrapper">
           <Icon height="30" width="30" />
         </div>
-
         <div className="directionWrapper">
-          <div className="firstTrain">
-            <Card.Subtitle className="mb-2 text-muted direction">
-              Downtown
-            </Card.Subtitle>
-            <Card.Text>Arriving now</Card.Text>
-          </div>
-          <div className="extraTrain">
-            <Card.Text>5 min</Card.Text>
-          </div>
-          <div className="extraTrain">
-            <Card.Text>10 min</Card.Text>
-          </div>
+          {displayTrainTimes(traintimes.uptown, "Uptown")}
         </div>
-
         <div className="directionWrapper">
-          <div className="firstTrain">
-            <Card.Subtitle className="mb-2 text-muted direction">
-              Uptown
-            </Card.Subtitle>
-            <Card.Text>Arriving now</Card.Text>
-          </div>
-          <div className="extraTrain">
-            <Card.Text>5 min</Card.Text>
-          </div>
-          <div className="extraTrain">
-            <Card.Text>10 min</Card.Text>
-          </div>
+          {displayTrainTimes(traintimes.downtown, "Downtown")}
         </div>
       </Card.Body>
     </Card>

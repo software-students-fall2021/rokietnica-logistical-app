@@ -22,9 +22,7 @@ const SubwayStation = (props) => {
     axios
       .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
       .then((res) => {
-        console.log("res.data: " + res.data);
         setStation(res.data);
-        console.log(station);
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +60,13 @@ const SubwayStation = (props) => {
       </div>
       <div className="cardsWrapper">
         {station.routes.map((line) => {
-          return <LineCard key={line} line={line} />;
+          return (
+            <LineCard
+              key={line}
+              line={line}
+              traintimes={station.traintimes[line]}
+            />
+          );
         })}
       </div>
     </div>
