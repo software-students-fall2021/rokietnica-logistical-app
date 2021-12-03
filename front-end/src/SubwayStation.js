@@ -45,7 +45,7 @@ const SubwayStation = (props) => {
     // background refresh every 30 seconds
     const interval = setInterval(fetchStation, 30000);
     return () => clearInterval(interval);
-  }, [showRefresh]);
+  }, [showRefresh, stationID]);
 
   if (loading) {
     return (

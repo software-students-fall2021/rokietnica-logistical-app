@@ -124,7 +124,7 @@ const LineCard = (props) => {
         <Card.Body className="cardBody">
           <div className="lineIconWrapper">
             <div className="icon">
-              <img src={fx_icon} height="35" width="35" />
+              <img src={fx_icon} alt="F Express" height="35" width="35" />
             </div>
           </div>
           <div className="directionWrapper">

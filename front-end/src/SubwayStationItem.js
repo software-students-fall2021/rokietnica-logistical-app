@@ -82,7 +82,7 @@ const SubwayStationItem = (props) => {
               if (line.toLowerCase() === "fx") {
                 return (
                   <div className="icon">
-                    <img src={fx_icon} height="22" width="22" />
+                    <img src={fx_icon} alt="F Express" height="22" width="22" />
                   </div>
                 );
               }
