@@ -114,14 +114,24 @@ function minutesAway(datetimestr) {
   const now = new Date();
   const future = new Date(datetimestr);
   const diff = future.getTime() - now.getTime();
-  return Math.floor(diff / 1000 / 60); // milliseconds to minutes, floored
+  const minutes = Math.round(diff / 1000 / 60);
+
+  // this shouldn't happen... hopefully not off by more an a minute
+  if (minutes < 0) {
+    let oneDecimal = Math.round(minutes * 10) / 10;
+    console.log(
+      `A train arrival time was calculated to be negative: ${oneDecimal} minutes`
+    );
+  }
+  return minutes; // milliseconds to minutes
 }
 
+// can be used to show user when MTA data was last updated
 function minutesAgo(datetimestr) {
   const now = new Date();
   const future = new Date(datetimestr);
   const diff = now.getTime() - future.getTime();
-  return Math.round(diff / 1000 / 60); // milliseconds to minutes, floored
+  return Math.round(diff / 1000 / 60); // milliseconds to minutes
 }
 
 function getTrains(route, trains) {

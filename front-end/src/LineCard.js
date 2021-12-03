@@ -84,7 +84,12 @@ const displayTrainTimes = (times, direction) => {
     for (let i = 0; i < limit; i++) {
       let element;
       if (i == 0) {
-        let text = times[i] == 0 ? "Arriving now" : `${times[i]} min`;
+        let text;
+        if (times[i] < 0) {
+          text = `${times[i] * -1} min ago`; // shouldn't happen, but just in case...
+        } else {
+          text = times[i] == 0 ? "Arriving now" : `${times[i]} min`;
+        }
         element = (
           <div className="firstTrain" key={i}>
             <Card.Subtitle className="mb-2 text-muted direction">
