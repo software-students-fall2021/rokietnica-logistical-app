@@ -77,6 +77,10 @@ const SubwayStationItem = (props) => {
           {props.station.name}
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
+              // do not attempt to list express route icons (there isn't any!)
+              if (line.toLowerCase().includes("x")) {
+                return "";
+              }
               if (!Object.keys(mapping).includes(line.toLowerCase())) {
                 return <div>{line}</div>;
               }
