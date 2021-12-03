@@ -69,7 +69,7 @@ const mapping = {
 
 const displayTrainTimes = (times, direction) => {
   // if no trains, possible next train is over 60 min away (MTAPI is set to fetch trains within 60 min arrival)
-  if (times.length == 0) {
+  if (times.length === 0) {
     return (
       <div className="firstTrain">
         <Card.Subtitle className="mb-2 text-muted direction">
@@ -83,12 +83,12 @@ const displayTrainTimes = (times, direction) => {
     let limit = times.length < 3 ? times.length : 3; // display up to three trains
     for (let i = 0; i < limit; i++) {
       let element;
-      if (i == 0) {
+      if (i === 0) {
         let text;
         if (times[i] < 0) {
           text = `${times[i] * -1} min ago`; // shouldn't happen, but just in case...
         } else {
-          text = times[i] == 0 ? "Arriving now" : `${times[i]} min`;
+          text = times[i] === 0 ? "Arriving now" : `${times[i]} min`;
         }
         element = (
           <div className="firstTrain" key={i}>
