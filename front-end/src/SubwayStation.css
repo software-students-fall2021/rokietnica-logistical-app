@@ -14,9 +14,11 @@
   padding-bottom: 1em;
 }
 
-.backBtnWrapper {
+.buttonsWrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin: auto;
+  width: 60%;
   padding-bottom: 2em;
 }
 
@@ -30,4 +32,8 @@
   padding-top: 2em;
   display: flex;
   justify-content: center;
+}
+
+#successMsg {
+  margin-bottom: 0;
 }

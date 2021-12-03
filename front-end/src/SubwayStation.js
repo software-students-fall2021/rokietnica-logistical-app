@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 
 import "./SubwayStation.css";
@@ -17,20 +18,31 @@ const SubwayStation = (props) => {
     traintimes: {},
   });
   const [loading, setLoading] = useState(true);
+  const [isRefresh, setRefresh] = useState(false);
+  const [showSuccess, setSuccess] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
+  const [hasRefreshed, setHasRefreshed] = useState(false);
 
   useEffect(() => {
     axios
       .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
       .then((res) => {
         setStation(res.data);
+        setShowFailure(false);
+        if (hasRefreshed) {
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 3000);
+        }
       })
       .catch((err) => {
+        setShowFailure(true);
         console.log(err);
       })
       .finally(() => {
+        setRefresh(false);
         setLoading(false);
       });
-  }, [stationID]);
+  }, [isRefresh]);
 
   if (loading) {
     return (
@@ -42,7 +54,7 @@ const SubwayStation = (props) => {
     );
   }
 
-  if (station == "no station with specified id") {
+  if (station === "no station with specified id") {
     return (
       <div className="no-station">
         No station with the specified ID was found.
@@ -50,13 +62,57 @@ const SubwayStation = (props) => {
     );
   }
 
+  if (showFailure) {
+    return (
+      <div className="container">
+        <Alert
+          variant="danger"
+          onClose={() => setShowFailure(false)}
+          dismissible
+        >
+          <p id="successMsg">Error with fetching train data</p>
+        </Alert>
+        <div className="buttonsWrapper">
+          <Link className="App-link" to="/stations">
+            <Button variant="danger">Back</Button>
+          </Link>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setRefresh(true);
+              setHasRefreshed(true);
+            }}
+          >
+            Refresh
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
+      {showSuccess ? (
+        <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
+          <p id="successMsg">Data successfully fetched</p>
+        </Alert>
+      ) : (
+        ""
+      )}
       <h1 className="stationName">{station.name}</h1>
-      <div className="backBtnWrapper">
+      <div className="buttonsWrapper">
         <Link className="App-link" to="/stations">
           <Button variant="danger">Back</Button>
         </Link>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setRefresh(true);
+            setHasRefreshed(true);
+          }}
+        >
+          Refresh
+        </Button>
       </div>
       <div className="cardsWrapper">
         {station.routes.map((line) => {
