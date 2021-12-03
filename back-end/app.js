@@ -2,11 +2,9 @@
 const express = require("express"); // CommonJS import style!
 const axios = require("axios"); // middleware for making requests to APIs
 const app = express(); // instantiate an Express object
-const parseCSV = require("./parseCSV");
-
 const fs = require("fs");
 
-const stationData = require("./stations");
+const API_DOMAIN = "http://localhost:5000";
 
 // allow CORS, so React app on port 3000 can make requests to Express server on port 4000
 app.use((req, res, next) => {
@@ -25,6 +23,12 @@ mongoose.connect(db_url, () => {
   console.log("DB connection state: " + mongoose.connection.readyState);
 });
 
+// parse stations file
+const stationsData = JSON.parse(
+  fs.readFileSync("../MTAPI-master/data/stations.json").toString()
+);
+const stationIDs = Object.keys(stationsData);
+
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
   res.send("Goodbye world!");
@@ -38,21 +42,22 @@ app.get("/apiCallTest", (req, res, next) => {
     .catch((err) => next(err)); // pass any errors to express
 });
 
-app.get("/stationData", (req, res, next) => {
+// returns array of station objects, with id, name, and list of routes
+app.get("/allStations", (req, res, next) => {
+  const ids = stationIDs.join(",");
+  const endpoint = API_DOMAIN + "/by-id/" + ids;
   axios
-    .get("http://demo6882294.mockable.io/stations")
+    .get(endpoint)
     .then((response) => {
-      //stationData.parse(response.data);
-      stationData.columns = response.data[0];
-      stationData.stations = response.data;
-      for (var i = 0; i < stationData.stations.length; i++) {
-        var station = stationData.stations[i];
-        station["Daytime Routes"] = station["Daytime Routes"]
-          .toString()
-          .split(" ");
-      }
-
-      res.json(stationData);
+      const data = response.data.data.map((station) => {
+        return {
+          id: station.id,
+          name: station.name,
+          routes: station.routes.sort(),
+        };
+      });
+      console.log(data);
+      res.send(data);
     })
     .catch((error) => {
       console.log(error);
@@ -61,11 +66,11 @@ app.get("/stationData", (req, res, next) => {
 });
 
 app.get("/station/:id", (req, res, next) => {
-  let endpoint = "http://localhost:5000/by-id/" + req.params.id;
+  const endpoint = API_DOMAIN + "/by-id/" + req.params.id;
   axios
     .get(endpoint)
     .then((response) => {
-      const data = parseStation(response.data);
+      const data = parseStation(response.data.data[0]);
       console.log(data);
       res.json(data);
     })
@@ -76,17 +81,16 @@ app.get("/station/:id", (req, res, next) => {
 });
 
 // utilities (move to another file later...)
-function parseStation(data) {
-  const dataObj = data.data[0];
+function parseStation(station) {
   const parsed = {};
 
-  parsed.id = dataObj.id;
-  parsed.name = dataObj.name;
-  parsed.updated = minutesAgo(data.updated);
+  parsed.id = station.id;
+  parsed.name = station.name;
+  parsed.last_update = minutesAgo(station.last_update);
 
   // create skeleton objects for traintimes when iterating later
   parsed.traintimes = {};
-  parsed.routes = dataObj.routes.sort();
+  parsed.routes = station.routes.sort();
   parsed.routes.forEach((route) => {
     parsed.traintimes[route] = {
       uptown: [],
@@ -95,8 +99,8 @@ function parseStation(data) {
   });
 
   for (const key of Object.keys(parsed.traintimes)) {
-    parsed.traintimes[key].uptown = getTrains(key, dataObj.N);
-    parsed.traintimes[key].downtown = getTrains(key, dataObj.S);
+    parsed.traintimes[key].uptown = getTrains(key, station.N);
+    parsed.traintimes[key].downtown = getTrains(key, station.S);
   }
 
   return parsed;
