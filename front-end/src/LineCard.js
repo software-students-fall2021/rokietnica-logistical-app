@@ -75,17 +75,33 @@ const LineCard = (props) => {
         <div className="lineIconWrapper">
           <Icon height="30" width="30" />
         </div>
+
         <div className="directionWrapper">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Downtown
-          </Card.Subtitle>
-          <Card.Text className="arrival">2 min</Card.Text>
+          <div className="firstTrain">
+            <Card.Subtitle className="mb-2 text-muted direction">
+              Downtown
+            </Card.Subtitle>
+            <Card.Text>Arriving now</Card.Text>
+          </div>
+          <div className="extraTrain">
+            <Card.Text>5 min</Card.Text>
+          </div>
+          <div className="extraTrain">
+            <Card.Text>10 min</Card.Text>
+          </div>
         </div>
-        <div className="directionWrapper">
+
+        <div className="firstTrain">
           <Card.Subtitle className="mb-2 text-muted direction">
             Uptown
           </Card.Subtitle>
-          <Card.Text className="arrival">12 min</Card.Text>
+          <Card.Text>Arriving now</Card.Text>
+        </div>
+        <div className="extraTrain">
+          <Card.Text>5 min</Card.Text>
+        </div>
+        <div className="extraTrain">
+          <Card.Text>10 min</Card.Text>
         </div>
       </Card.Body>
     </Card>
