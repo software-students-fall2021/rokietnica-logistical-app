@@ -66,6 +66,10 @@ app.get("/allStations", (req, res, next) => {
 });
 
 app.get("/station/:id", (req, res, next) => {
+  if (!stationIDs.includes(req.params.id)) {
+    res.send("no station with specified id");
+    return;
+  }
   const endpoint = API_DOMAIN + "/by-id/" + req.params.id;
   axios
     .get(endpoint)
