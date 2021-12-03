@@ -14,14 +14,27 @@
   padding-bottom: 1em;
 }
 
-.backBtnWrapper {
+.buttonsWrapper {
   display: flex;
-  justify-content: center;
-  padding-bottom: 1em;
+  justify-content: space-evenly;
+  margin: auto;
+  width: 60%;
+  padding-bottom: 2em;
 }
 
-.no-station {
+.no-station,
+.no-routes {
   margin: auto;
-  width: 90%;
+  width: 95%;
   text-align: center;
+}
+
+.spinnerWrapper {
+  padding-top: 2em;
+  display: flex;
+  justify-content: center;
+}
+
+.alertmsg {
+  margin-bottom: 0;
 }
