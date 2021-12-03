@@ -41,9 +41,9 @@ const mapping = {
   4: Line_4,
   5: Line_5,
   6: Line_6,
-  "6d": Line_6d,
+  "6x": Line_6d, // MTAPI lists this line as 6x
   7: Line_7,
-  "7d": Line_7d,
+  "7x": Line_7d, // MTAPI lists this line as 7x
   a: Line_a,
   b: Line_b,
   c: Line_c,
@@ -59,7 +59,7 @@ const mapping = {
   q: Line_q,
   r: Line_r,
   s: Line_s,
-  fs: Line_sf, // MTAPI lists this line as fs instead of sf
+  fs: Line_sf, // MTAPI lists this line as fs
   sir: Line_sir,
   sr: Line_sr,
   t: Line_t,
