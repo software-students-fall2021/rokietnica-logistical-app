@@ -3,6 +3,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router-dom";
 
 import "./SubwayStationItem.css";
+import fx_icon from "./line_icons/fx.png";
 
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
@@ -77,9 +78,13 @@ const SubwayStationItem = (props) => {
           {props.station.name}
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
-              // shouldn't happen but just in case...
-              if (!Object.keys(mapping).includes(line.toLowerCase())) {
-                return <div>{line}</div>;
+              // since the fx icon is a png
+              if (line.toLowerCase() === "fx") {
+                return (
+                  <div className="icon">
+                    <img src={fx_icon} height="22" width="22" />
+                  </div>
+                );
               }
               const Icon = mapping[line.toLowerCase()];
               return (

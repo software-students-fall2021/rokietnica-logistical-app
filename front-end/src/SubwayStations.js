@@ -20,7 +20,6 @@ const SubwayStations = () => {
       .then((res) => {
         setStations(res.data.sort((a, b) => (a.name >= b.name ? 1 : -1)));
         setShowFailure(false);
-        console.log(stations);
       })
       .catch((err) => {
         setShowFailure(true);

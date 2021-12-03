@@ -2,6 +2,8 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import "./LineCard.css";
 
+import fx_icon from "./line_icons/fx.png";
+
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
 import { ReactComponent as Line_2 } from "./line_icons/2.svg";
@@ -114,6 +116,27 @@ const displayTrainTimes = (times, direction) => {
 const LineCard = (props) => {
   const Icon = mapping[props.line.toLowerCase()];
   const traintimes = props.traintimes;
+
+  // since the fx icon is a png
+  if (props.line.toLowerCase() === "fx") {
+    return (
+      <Card className="cardWrapper">
+        <Card.Body className="cardBody">
+          <div className="lineIconWrapper">
+            <div className="icon">
+              <img src={fx_icon} height="35" width="35" />
+            </div>
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.uptown, "Uptown")}
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.downtown, "Downtown")}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <Card className="cardWrapper">
