@@ -70,7 +70,7 @@ const SubwayStation = (props) => {
           onClose={() => setShowFailure(false)}
           dismissible
         >
-          <p id="successMsg">Error with fetching train data</p>
+          <p className="alertmsg">Error with fetching train data</p>
         </Alert>
         <div className="buttonsWrapper">
           <Link className="App-link" to="/stations">
@@ -94,7 +94,7 @@ const SubwayStation = (props) => {
     <div className="container">
       {showSuccess ? (
         <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
-          <p id="successMsg">Data successfully fetched</p>
+          <p className="alertmsg">Data successfully fetched</p>
         </Alert>
       ) : (
         ""

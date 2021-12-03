@@ -10,3 +10,7 @@
   display: flex;
   justify-content: center;
 }
+
+.alertmsg {
+  margin-bottom: 0;
+}
