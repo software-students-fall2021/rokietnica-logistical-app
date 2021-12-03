@@ -18,31 +18,34 @@ const SubwayStation = (props) => {
     traintimes: {},
   });
   const [loading, setLoading] = useState(true);
-  const [isRefresh, setRefresh] = useState(false);
+  const [showRefresh, setRefresh] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
-  const [hasRefreshed, setHasRefreshed] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
-      .then((res) => {
-        setStation(res.data);
-        setShowFailure(false);
-        if (hasRefreshed) {
+    const fetchStation = () => {
+      axios
+        .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
+        .then((res) => {
+          setStation(res.data);
           setSuccess(true);
-          setTimeout(() => setSuccess(false), 3000);
-        }
-      })
-      .catch((err) => {
-        setShowFailure(true);
-        console.log(err);
-      })
-      .finally(() => {
-        setRefresh(false);
-        setLoading(false);
-      });
-  }, [isRefresh]);
+          setTimeout(() => setSuccess(false), 5000);
+          setShowFailure(false);
+        })
+        .catch((err) => {
+          setShowFailure(true);
+          console.log(err);
+        })
+        .finally(() => {
+          setRefresh(false);
+          setLoading(false);
+        });
+    };
+    fetchStation();
+    // background refresh every 30 seconds
+    const interval = setInterval(fetchStation, 30000);
+    return () => clearInterval(interval);
+  }, [showRefresh]);
 
   if (loading) {
     return (
@@ -74,7 +77,6 @@ const SubwayStation = (props) => {
             variant="primary"
             onClick={() => {
               setRefresh(true);
-              setHasRefreshed(true);
             }}
           >
             Refresh
@@ -105,7 +107,6 @@ const SubwayStation = (props) => {
             variant="primary"
             onClick={() => {
               setRefresh(true);
-              setHasRefreshed(true);
             }}
           >
             Refresh
@@ -118,8 +119,8 @@ const SubwayStation = (props) => {
   return (
     <div className="container">
       {showSuccess ? (
-        <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
-          <p className="alertmsg">Data successfully fetched</p>
+        <Alert variant="info" onClose={() => setSuccess(false)} dismissible>
+          <p className="alertmsg">Updated just now</p>
         </Alert>
       ) : (
         ""
@@ -133,7 +134,6 @@ const SubwayStation = (props) => {
           variant="primary"
           onClick={() => {
             setRefresh(true);
-            setHasRefreshed(true);
           }}
         >
           Refresh
