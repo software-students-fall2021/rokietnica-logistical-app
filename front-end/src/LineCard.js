@@ -59,7 +59,7 @@ const mapping = {
   q: Line_q,
   r: Line_r,
   s: Line_s,
-  sf: Line_sf,
+  fs: Line_sf, // MTAPI lists this line as fs instead of sf
   sir: Line_sir,
   sr: Line_sr,
   t: Line_t,

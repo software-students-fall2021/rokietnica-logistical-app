@@ -61,7 +61,7 @@ const mapping = {
   q: Line_q,
   r: Line_r,
   s: Line_s,
-  sf: Line_sf,
+  fs: Line_sf, // MTAPI lists this line as fs instead of sf
   sir: Line_sir,
   sr: Line_sr,
   t: Line_t,
@@ -77,6 +77,9 @@ const SubwayStationItem = (props) => {
           {props.station.name}
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
+              if (!Object.keys(mapping).includes(line.toLowerCase())) {
+                return <div>{line}</div>;
+              }
               const Icon = mapping[line.toLowerCase()];
               return (
                 <div className="icon">
