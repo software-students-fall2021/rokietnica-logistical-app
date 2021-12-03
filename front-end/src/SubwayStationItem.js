@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./SubwayStationItem.css";
 import fx_icon from "./line_icons/fx.png";
+import Line_5x from "./line_icons/5x.png";
 
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
@@ -43,6 +44,7 @@ const mapping = {
   3: Line_3,
   4: Line_4,
   5: Line_5,
+  "5x": Line_5x,
   6: Line_6,
   "6x": Line_6d, // MTAPI lists this line as 6x
   7: Line_7,
@@ -79,12 +81,32 @@ const SubwayStationItem = (props) => {
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
               // since the fx icon is a png
-              if (line.toLowerCase() === "fx") {
-                return (
-                  <div className="icon">
-                    <img src={fx_icon} alt="F Express" height="22" width="22" />
-                  </div>
-                );
+              switch (line.toLowerCase()) {
+                case "fx":
+                  return (
+                    <div className="icon">
+                      <img
+                        src={fx_icon}
+                        alt="F Express"
+                        height="22"
+                        width="22"
+                      />
+                    </div>
+                  );
+                case "5x":
+                  return (
+                    <div className="icon">
+                      <img
+                        src={Line_5x}
+                        alt="5 Express"
+                        height="22"
+                        width="22"
+                      />
+                    </div>
+                  );
+              }
+              if (!Object.keys(mapping).includes(line.toLowerCase())) {
+                return <div className="icon">{line}</div>;
               }
               const Icon = mapping[line.toLowerCase()];
               return (

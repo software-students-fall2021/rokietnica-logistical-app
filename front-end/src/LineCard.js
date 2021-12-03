@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import "./LineCard.css";
 
 import fx_icon from "./line_icons/fx.png";
+import Line_5x from "./line_icons/5x.png";
 
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
@@ -42,6 +43,7 @@ const mapping = {
   3: Line_3,
   4: Line_4,
   5: Line_5,
+  "5x": Line_5x,
   6: Line_6,
   "6x": Line_6d, // MTAPI lists this line as 6x
   7: Line_7,
@@ -125,6 +127,25 @@ const LineCard = (props) => {
           <div className="lineIconWrapper">
             <div className="icon">
               <img src={fx_icon} alt="F Express" height="35" width="35" />
+            </div>
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.uptown, "Uptown")}
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.downtown, "Downtown")}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+  if (props.line.toLowerCase() === "5x") {
+    return (
+      <Card className="cardWrapper">
+        <Card.Body className="cardBody">
+          <div className="lineIconWrapper">
+            <div className="icon">
+              <img src={Line_5x} alt="F Express" height="35" width="35" />
             </div>
           </div>
           <div className="directionWrapper">
