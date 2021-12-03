@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
 
+const EXPRESS_DOMAIN = "http://localhost:4000";
+
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
   const [station, setStation] = useState({
-    "Stop Name": "",
-    "Daytime Routes": [],
+    name: "",
+    routes: [],
+    traintimes: {},
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    axios(`http://localhost:4000/station/${stationID}`)
+    axios
+      .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
       .then((res) => {
+        console.log("res.data: " + res.data);
         setStation(res.data);
+        console.log(station);
       })
       .catch((err) => {
         console.log(err);
@@ -29,10 +35,16 @@ const SubwayStation = (props) => {
   }, [stationID]);
 
   if (loading) {
-    return <div></div>;
+    return (
+      <div className="spinnerWrapper">
+        <Spinner className="spinner" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
-  if (!station) {
+  if (station == "no station with specified id") {
     return (
       <div className="no-station">
         No station with the specified ID was found.
@@ -42,14 +54,14 @@ const SubwayStation = (props) => {
 
   return (
     <div className="container">
-      <h1 className="stationName">{station["Stop Name"]}</h1>
+      <h1 className="stationName">{station.name}</h1>
       <div className="backBtnWrapper">
         <Link className="App-link" to="/stations">
           <Button variant="danger">Back</Button>
         </Link>
       </div>
       <div className="cardsWrapper">
-        {station["Daytime Routes"].map((line) => {
+        {station.routes.map((line) => {
           return <LineCard key={line} line={line} />;
         })}
       </div>

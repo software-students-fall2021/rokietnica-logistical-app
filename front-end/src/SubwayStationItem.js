@@ -71,12 +71,12 @@ const mapping = {
 
 const SubwayStationItem = (props) => {
   return (
-    <Link className="App-link" to={`/stations/${props.station["Station ID"]}`}>
+    <Link className="App-link" to={`/stations/${props.station.id}`}>
       <div className="contentWrapper">
-        <ListGroup.Item key={props.station["Station ID"]} action>
-          {props.station["Stop Name"]}
+        <ListGroup.Item key={props.station.id} action>
+          {props.station.name}
           <div className="iconsWrapper">
-            {props.station["Daytime Routes"].map((line) => {
+            {props.station.routes.map((line) => {
               const Icon = mapping[line.toLowerCase()];
               return (
                 <div className="icon">
