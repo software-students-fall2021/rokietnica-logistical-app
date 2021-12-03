@@ -49,13 +49,15 @@ app.get("/allStations", (req, res, next) => {
   axios
     .get(endpoint)
     .then((response) => {
-      const data = response.data.data.map((station) => {
-        return {
-          id: station.id,
-          name: station.name,
-          routes: station.routes.sort(),
-        };
-      });
+      const data = response.data.data
+        .filter((station) => station.routes.length > 0) // remove stations with no routes currently available
+        .map((station) => {
+          return {
+            id: station.id,
+            name: station.name,
+            routes: station.routes.sort(),
+          };
+        });
       console.log(data);
       res.send(data);
     })
@@ -135,7 +137,7 @@ function minutesAgo(datetimestr) {
 }
 
 function getTrains(route, trains) {
-  const filtered = trains.filter((entry) => entry.route == route);
+  const filtered = trains.filter((entry) => entry.route === route);
   return filtered.map((entry) => {
     return minutesAway(entry.time);
   });

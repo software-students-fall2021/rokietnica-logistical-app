@@ -22,9 +22,10 @@
   padding-bottom: 2em;
 }
 
-.no-station {
+.no-station,
+.no-routes {
   margin: auto;
-  width: 90%;
+  width: 95%;
   text-align: center;
 }
 

@@ -62,6 +62,31 @@ const SubwayStation = (props) => {
     );
   }
 
+  if (station.name && station.routes.length === 0) {
+    return (
+      <div className="container">
+        <h1 className="stationName">{station.name}</h1>
+        <div className="buttonsWrapper">
+          <Link className="App-link" to="/stations">
+            <Button variant="danger">Back</Button>
+          </Link>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setRefresh(true);
+              setHasRefreshed(true);
+            }}
+          >
+            Refresh
+          </Button>
+        </div>
+        <div className="no-routes">
+          No trains are arriving within the next hour.
+        </div>
+      </div>
+    );
+  }
+
   if (showFailure) {
     return (
       <div className="container">
