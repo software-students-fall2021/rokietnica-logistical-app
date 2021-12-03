@@ -80,30 +80,19 @@ const SubwayStationItem = (props) => {
           {props.station.name}
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
-              // since the fx icon is a png
-              switch (line.toLowerCase()) {
-                case "fx":
-                  return (
-                    <div className="icon">
-                      <img
-                        src={fx_icon}
-                        alt="F Express"
-                        height="22"
-                        width="22"
-                      />
-                    </div>
-                  );
-                case "5x":
-                  return (
-                    <div className="icon">
-                      <img
-                        src={Line_5x}
-                        alt="5 Express"
-                        height="22"
-                        width="22"
-                      />
-                    </div>
-                  );
+              if (line.toLowerCase() === "fx") {
+                return (
+                  <div className="icon">
+                    <img src={fx_icon} alt="F Express" height="22" width="22" />
+                  </div>
+                );
+              }
+              if (line.toLowerCase() === "5x") {
+                return (
+                  <div className="icon">
+                    <img src={Line_5x} alt="5 Express" height="22" width="22" />
+                  </div>
+                );
               }
               if (!Object.keys(mapping).includes(line.toLowerCase())) {
                 return <div className="icon">{line}</div>;
