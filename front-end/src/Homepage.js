@@ -12,6 +12,9 @@ import SubwayLinesInfo from "./SubwayLinesInfo";
 import SubwayStation from "./SubwayStation";
 import SubwayStations from "./SubwayStations";
 import Subwaylines from "./Subwaylines";
+import Login from "./Login";
+import Signup from "./Signup";
+import Logout from "./Logout";
 
 function App() {
   // add links to your pages for now
@@ -23,6 +26,9 @@ function App() {
       <Route path="/stations/:id" component={SubwayStation}></Route>
       <Route exact path="/stationView" component={SubwayStation}></Route>
       <Route exact path="/lines" component={Subwaylines}></Route>
+      <Route exact path="/login" component={Login}></Route>
+      <Route exact path="/signup" component={Signup}></Route>
+      <Route exact path="/logout" component={Logout}></Route>
     </Switch>
   );
 }
@@ -54,7 +60,6 @@ const Homepage = () => {
         onClose={handleClose}
         open={Boolean(anchorEl)}
       >
-        <MenuItem onClick={handleClose}>Map View</MenuItem>
         <Link className="App-link" to="/stations">
           {" "}
           <MenuItem onClick={handleClose}>List of Stations</MenuItem>{" "}
