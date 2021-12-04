@@ -5,6 +5,7 @@ const app = express(); // instantiate an Express object
 const fs = require("fs");
 
 const API_DOMAIN = "http://localhost:5000";
+require("dotenv").config({ silent: true });
 
 // allow CORS, so React app on port 3000 can make requests to Express server on port 4000
 app.use((req, res, next) => {
@@ -22,7 +23,6 @@ app.use(cors({ origin: process.env.FRONT_END_DOMAIN, credentials: true }))
 
 // ====================== MONGODB SETUP ======================
 
-require("dotenv").config({ silent: true });
 const mongoose = require("mongoose");
 const db_url = process.env.MONGO_DB_URL;
 mongoose.connect(db_url, () => {
@@ -37,6 +37,7 @@ const User = require('./models/userModel')
 // ===================== END MONGODB SETUP ======================
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -100,7 +101,7 @@ app.post("/signup", function (req, res) {
 app.post("/login", function (req, res) {
   const tUsername = req.body.username
   const tPassword = req.body.password
-  // console.log(`${tUsername}, ${tPassword}`) debugging
+  //console.log(`${tUsername}, ${tPassword}`) //debugging
 
   if (!tUsername || !tPassword) {
     // no username or password received in the POST body... send an error
@@ -110,22 +111,27 @@ app.post("/login", function (req, res) {
   }
 
   User.findOne({ username: tUsername}, 'password', function (err, users) {
-      if (err)
-        return res.status(401).json({ success: false, message: `user not found: ${tUsername}.` });
-      const retPass = users.password;
-      // assuming we found the user, check the password is correct
-      bcrypt.compare(tPassword, retPass).then(function(result) {
-        //console.log(result) debugging
-        if (result){
-          const payload = { id: users.id } // some data we'll encode into the token
-          const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
-          res.json({ success: true, username: tUsername, token: token }) // send the token to the client to store
-        }
-        else{
-          res.status(401).json({ success: false, message: "passwords did not match" })
-        }
-      });
+    //console.log(users)
+      if (users == null || err)
+        res.status(401).json({ success: false, message: `error` });
+      else{
+        const retPass = users.password;
+        // assuming we found the user, check the password is correct
+        bcrypt.compare(tPassword, retPass).then(function(result) {
+          //console.log("===" + result) //debugging
+          if (result){
+            const payload = { id: users.id } // some data we'll encode into the token
+            const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
+            res.json({ success: true, username: tUsername, token: token }) // send the token to the client to store
+          }
+          else{
+            res.status(401).json({ success: false, message: "passwords did not match" })
+          }
+        });
+      }
+
   })
+  return;
 });
 
 // ===================== END LOGIN ROUTE ======================
