@@ -4,7 +4,9 @@
   "description": "The back-end of your project will live in this directory.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha App.test.js"
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text --reporter=lcov --reporter=clover mocha --timeout 10000 --exit",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +14,7 @@
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "expect.js": "^0.3.1",
@@ -23,6 +26,7 @@
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "nyc": "^15.1.0"
   }
 }
