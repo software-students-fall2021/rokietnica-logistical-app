@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import SubwayIcon from "./SubwayIcon";
+import NavBar from "./NavBar";
 
 import "./Subwaylines.css";
 
@@ -18,7 +19,7 @@ function Lines() {
             // Mockaroo, which we're using for our Mock API, only allows 200 requests per day on the free plan
             console.log(`Sorry, buster.  No more requests allowed today!`);
             console.error(err); // the server returned an error... probably too many requests... until we pay!
-    
+
             // make some backup fake data
             const backupData = [
               {
@@ -52,15 +53,18 @@ function Lines() {
                 ],
               },
             ];
-    
+
             setData(backupData);
           });
-      }, []); 
+      }, []);
     return (
-      <div className="grid-container">
+      <div>
+        <NavBar />
+        <div className="grid-container">
           {data.map((item) => (
               <SubwayIcon key = {item.id} details = {item}/>
           ))}
+        </div>
       </div>
         );
 }
