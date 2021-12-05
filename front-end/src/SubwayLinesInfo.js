@@ -14,16 +14,16 @@ const SubwayLinesInfo = (props) => {
   // start a state varaible with a blank array
   const [data, setData] = useState([]);
   const [reverse, setReverse] = useState([false, "regularOrder"]);
-  const [refresh, setRefresh] = useState([false]);
+  const [refresh, setRefresh] = useState(true);
 
   const subwayLine = props.match.params.name;
 
   // the following side-effect will be called once upon initial render
   useEffect(() => {
-    const getData = () => {
+    if (refresh){
       axios(`${process.env.REACT_APP_BACKEND}/lines/${subwayLine}`)
         .then((response) => {
-          console.log(response.data)
+          console.log("refresh alert")
           setData(response.data);
           //setData(response.data);
         })
@@ -35,8 +35,16 @@ const SubwayLinesInfo = (props) => {
           setRefresh(false);
         });
     }
-    getData();
-  }, [refresh, subwayLine]); // only run it once!
+  }, [refresh, subwayLine]);
+
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      setRefresh(true)
+    }, 30000);
+  return () => {
+    clearInterval(interval);
+  }
+  }, [subwayLine]);
 
   function reverseOrdering(e) {
     e.preventDefault();
