@@ -16,7 +16,7 @@ const SubwayLinesInfo = (props) => {
   const [reverse, setReverse] = useState([false, "regularOrder"]);
   const [refresh, setRefresh] = useState([false]);
 
-  const subwayLine = props.match.params.id;
+  const subwayLine = props.match.params.name;
 
   // the following side-effect will be called once upon initial render
   useEffect(() => {

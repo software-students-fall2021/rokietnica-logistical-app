@@ -22,7 +22,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={Homepage}></Route>
-      <Route path="/lines/:id" component={SubwayLinesInfo}></Route>
+      <Route path="/lines/:name" component={SubwayLinesInfo}></Route>
       <Route exact path="/stations" component={SubwayStations}></Route>
       <Route path="/stations/:id" component={SubwayStation}></Route>
       <Route exact path="/stationView" component={SubwayStation}></Route>
