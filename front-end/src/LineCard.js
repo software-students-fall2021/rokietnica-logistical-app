@@ -2,6 +2,9 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import "./LineCard.css";
 
+import fx_icon from "./line_icons/fx.png";
+import Line_5x from "./line_icons/5x.png";
+
 // TODO: Find a better way to do this...
 import { ReactComponent as Line_1 } from "./line_icons/1.svg";
 import { ReactComponent as Line_2 } from "./line_icons/2.svg";
@@ -40,10 +43,11 @@ const mapping = {
   3: Line_3,
   4: Line_4,
   5: Line_5,
+  "5x": Line_5x,
   6: Line_6,
-  "6d": Line_6d,
+  "6x": Line_6d, // MTAPI lists this line as 6x
   7: Line_7,
-  "7d": Line_7d,
+  "7x": Line_7d, // MTAPI lists this line as 7x
   a: Line_a,
   b: Line_b,
   c: Line_c,
@@ -59,7 +63,7 @@ const mapping = {
   q: Line_q,
   r: Line_r,
   s: Line_s,
-  sf: Line_sf,
+  fs: Line_sf, // MTAPI lists this line as fs
   sir: Line_sir,
   sr: Line_sr,
   t: Line_t,
@@ -67,25 +71,105 @@ const mapping = {
   z: Line_z,
 };
 
+const displayTrainTimes = (times, direction) => {
+  // if no trains, possible next train is over 60 min away (MTAPI is set to fetch trains within 60 min arrival)
+  if (times.length === 0) {
+    return (
+      <div className="firstTrain">
+        <Card.Subtitle className="mb-2 text-muted direction">
+          {direction}
+        </Card.Subtitle>
+        <Card.Text>None next hour</Card.Text>
+      </div>
+    );
+  } else {
+    let elements = [];
+    let limit = times.length < 3 ? times.length : 3; // display up to three trains
+    for (let i = 0; i < limit; i++) {
+      let element;
+      if (i === 0) {
+        let text;
+        if (times[i] < 0) {
+          text = `${times[i] * -1} min ago`; // shouldn't happen, but just in case...
+        } else {
+          text = times[i] === 0 ? "Arriving now" : `${times[i]} min`;
+        }
+        element = (
+          <div className="firstTrain" key={i}>
+            <Card.Subtitle className="mb-2 text-muted direction">
+              {direction}
+            </Card.Subtitle>
+            <Card.Text>{text}</Card.Text>
+          </div>
+        );
+      } else {
+        element = (
+          <div className="extraTrain">
+            <Card.Text>{times[i]} min</Card.Text>
+          </div>
+        );
+      }
+      elements.push(element);
+    }
+    return elements;
+  }
+};
+
 const LineCard = (props) => {
   const Icon = mapping[props.line.toLowerCase()];
+  const traintimes = props.traintimes;
+
+  // since the fx icon is a png
+  if (props.line.toLowerCase() === "fx") {
+    return (
+      <Card className="cardWrapper">
+        <Card.Body className="cardBody">
+          <div className="lineIconWrapper">
+            <div className="icon">
+              <img src={fx_icon} alt="F Express" height="35" width="35" />
+            </div>
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.uptown, "Uptown")}
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.downtown, "Downtown")}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+  if (props.line.toLowerCase() === "5x") {
+    return (
+      <Card className="cardWrapper">
+        <Card.Body className="cardBody">
+          <div className="lineIconWrapper">
+            <div className="icon">
+              <img src={Line_5x} alt="F Express" height="35" width="35" />
+            </div>
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.uptown, "Uptown")}
+          </div>
+          <div className="directionWrapper">
+            {displayTrainTimes(traintimes.downtown, "Downtown")}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   return (
     <Card className="cardWrapper">
-      <Card.Body>
+      <Card.Body className="cardBody">
         <div className="lineIconWrapper">
           <Icon height="30" width="30" />
         </div>
         <div className="directionWrapper">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Downtown
-          </Card.Subtitle>
-          <Card.Text className="arrival">2 min</Card.Text>
+          {displayTrainTimes(traintimes.uptown, "Uptown")}
         </div>
         <div className="directionWrapper">
-          <Card.Subtitle className="mb-2 text-muted direction">
-            Uptown
-          </Card.Subtitle>
-          <Card.Text className="arrival">12 min</Card.Text>
+          {displayTrainTimes(traintimes.downtown, "Downtown")}
         </div>
       </Card.Body>
     </Card>
