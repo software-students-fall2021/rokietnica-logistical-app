@@ -7,7 +7,7 @@
 **Description:** NYC ROUTE is a mobile app for users to check real-time MTA subway information.
 
 **MVP:** When users open up the app, users can see a map where the stations are shown with different lines at each station. From there, the user can indicate when each line will arrive at the subway and the different stops available to them.
-PLEASE NOTE: if you would like to actually run this application with real data, many files are hidden in .env files untracked by version control. You will have to contact one of the Team Members (listed below) to access these .env files. 
+PLEASE NOTE: if you would like to actually run this application with real data, many files are hidden in .env files untracked by version control. You will have to contact one of the Team Members (listed below) to access these .env files. They contain information about databases. 
 
 ## Team Members
 
