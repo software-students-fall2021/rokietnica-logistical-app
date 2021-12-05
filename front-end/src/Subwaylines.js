@@ -8,11 +8,11 @@ import "./Subwaylines.css";
 
 function Lines() {
     const [data, setData] = useState([]);
+    var id = 0;
     useEffect(() => {
-        // fetch some mock data about animals for sale
-        axios("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
+        axios(`${process.env.REACT_APP_BACKEND}/allLines`)
           .then((response) => {
-            // extract the data from the server response
+            console.log(response.data)
             setData(response.data);
           })
           .catch((err) => {
@@ -21,39 +21,7 @@ function Lines() {
             console.error(err); // the server returned an error... probably too many requests... until we pay!
 
             // make some backup fake data
-            const backupData = [
-              {
-                id : 1,
-                line: "1",
-                stations: [
-                  {
-                    id: 1,
-                    name: "first",
-                    uptown: "[4, 5, 6]",
-                    downtown: "[2, 4, 7, 10]",
-                  },
-                  {
-                    id: 2,
-                    name: "second",
-                    uptown: "[5]",
-                    downtown: "[2, 5]",
-                  },
-                  {
-                    id: 3,
-                    name: "third",
-                    uptown: "[4,5,6,7]",
-                    downtown: "[4,5,6,7]",
-                  },
-                  {
-                    id: 4,
-                    name: "fourth",
-                    uptown: "[2, 5]",
-                    downtown: "[5]",
-                  },
-                ],
-              },
-            ];
-
+            const backupData = [];
             setData(backupData);
           });
       }, []);
@@ -62,7 +30,7 @@ function Lines() {
         <NavBar />
         <div className="grid-container">
           {data.map((item) => (
-              <SubwayIcon key = {item.id} details = {item}/>
+              <SubwayIcon key = {id++} details = {item}/>
           ))}
         </div>
       </div>

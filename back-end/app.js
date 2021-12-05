@@ -143,13 +143,62 @@ const stationsData = JSON.parse(
 );
 const stationIDs = Object.keys(stationsData);
 
-// proxy requests to/from an API
-app.get("/apiCallTest", (req, res, next) => {
+// ================= LINES -> STATIONS ROUTES ==================
+
+app.get("/allLines", (req, res, next) => {
+  const endpoint = API_DOMAIN + "/routes"
   axios
-    .get("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
-    .then((apiResponse) => res.json(apiResponse.data)) // pass data along directly to client
+    .get(endpoint)
+    .then((apiResponse) => {
+      res.json(apiResponse.data.data)
+    }) // pass data along directly to client
     .catch((err) => next(err)); // pass any errors to express
+
 });
+
+app.get("/lines/:id", (req, res, next) => {
+  const endpoint = API_DOMAIN + "/by-route/" + req.params.id
+  axios
+    .get(endpoint)
+    .then((apiResponse) => {
+      const data = apiResponse.data.data
+      console.log(data)
+      const retVal = parseLines(filterDuplicates(data), req.params.id)
+      //console.log(retVal)
+      /*
+      data.sort((a,b) => {
+        Object.keys
+        //console.log(parseInt(Object.keys(a.stops)[0]))
+        //console.log(Object.keys(b.stops)[0])
+        return parseInt(Object.keys(a.stops)[0]) - parseInt(Object.keys(b.stops)[0])
+      })
+      */
+      res.json(retVal)
+    }) // pass data along directly to client
+    .catch((err) => next(err)); // pass any errors to express
+})
+
+function parseLines(data, route){
+  data.forEach((e) => {
+    //console.log(e.N)
+    e.N = getTrains(route, e.N)
+    e.S = getTrains(route, e.S)
+    e.last_update = minutesAgo(e.last_update)
+  })
+  return data
+}
+
+function filterDuplicates(data){
+  const ids = []
+  const newData = []
+  data.forEach((station) => {
+    if(!ids.includes(station.id)){
+      ids.push(station.id)
+      newData.push(station)
+    }
+  })
+  return newData
+}
 
 // returns array of station objects, with id, name, and list of routes
 app.get("/allStations", (req, res, next) => {
