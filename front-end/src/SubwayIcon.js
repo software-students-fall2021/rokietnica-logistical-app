@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 
 const SubwayIcon = (props) => {
-  const colorClass = "grid-item-" + props.details.color;
+  const colorClass = "grid-item-" + props.details[0];
   return (
-    <Link className="App-link" to={`/subwayLinesInfo/${props.details.id}`}> 
-        <div className={colorClass}> 
-            {props.details.line}
-        </div>
+    <Link className="App-link" to={`/lines/${props.line}`}>
+      <div className={colorClass}> 
+        {props.details[1]}
+      </div>
     </Link>
   );
 };

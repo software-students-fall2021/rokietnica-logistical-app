@@ -1,10 +1,11 @@
-// import and instantiate express
-const express = require("express"); // CommonJS import style!
+const express = require("express");
 const axios = require("axios"); // middleware for making requests to APIs
+
 const app = express(); // instantiate an Express object
 const fs = require("fs");
 
 const API_DOMAIN = "http://localhost:5000";
+require("dotenv").config({ silent: true });
 
 // allow CORS, so React app on port 3000 can make requests to Express server on port 4000
 app.use((req, res, next) => {
@@ -16,12 +17,125 @@ app.use((req, res, next) => {
   next();
 });
 
-require("dotenv").config({ silent: true });
+const cors = require("cors")
+// allow incoming requests only from a "trusted" host
+app.use(cors({ origin: process.env.FRONT_END_DOMAIN, credentials: true }))
+
+// ====================== MONGODB SETUP ======================
+
 const mongoose = require("mongoose");
 const db_url = process.env.MONGO_DB_URL;
 mongoose.connect(db_url, () => {
   console.log("DB connection state: " + mongoose.connection.readyState);
 });
+
+//models
+const User = require('./models/userModel')
+//const FavLine = require('./models/favLineModel')
+//const FavStation = require('./models/favStationModel')
+
+// ===================== END MONGODB SETUP ======================
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+const jwt = require("jsonwebtoken")
+const passport = require("passport")
+app.use(passport.initialize())
+
+const { jwtOptions, jwtStrategy } = require("./jwt-config.js") // import setup options for using JWT in passport
+passport.use(jwtStrategy)
+
+// ===================== SIGNUP ROUTE ======================
+
+app.post("/signup", function (req, res) {
+  const username = req.body.username
+  const password = req.body.password
+  const passwordCheck = req.body.passwordCheck
+
+  if (!username || !password || !passwordCheck) {
+    // no username or password received in the POST body... send an error
+    res
+      .status(401)
+      .json({ success: false, message: `no username or password supplied.` })
+  }
+  if (password != passwordCheck){
+    //password doesn't match the password check
+    res
+      .status(401)
+      .json({ success: false, message: `passwords don't match` })
+  }
+  // encrypt the password and enter it into the database
+  bcrypt.hash(password, saltRounds).then(function(hash) {
+    const newUser = new User({ username: username, password: hash });
+    newUser.save(function(err) {
+      if (err) {
+        console.log(err)
+        if (err.name === 'MongoServerError' && err.code === 11000) {
+          // Duplicate username
+          return res.status(422).send({ succes: false, message: 'User already exist!' });
+        }
+        // Some other error
+        return res.status(401).send(err);
+      }
+      return res.json({ success: true, username: req.body.username});
+    });
+  });
+
+  /*
+  User.findOne({ username: req.body.username}, 'password', function (err, users) {
+    if (err) return res.status(401).json({ success: false, message: `user not found: ${tUsername}.` });
+    const payload = { id: users.id } // some data we'll encode into the token
+    const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
+    res.json({ success: true, username: req.body.username, token: token }) // send the token to the client to store
+  });
+  */
+});
+
+// ===================== END SIGNUP ROUTE ======================
+
+// ===================== LOGIN ROUTE ======================
+app.post("/login", function (req, res) {
+  const tUsername = req.body.username
+  const tPassword = req.body.password
+  //console.log(`${tUsername}, ${tPassword}`) //debugging
+
+  if (!tUsername || !tPassword) {
+    // no username or password received in the POST body... send an error
+    res
+      .status(401)
+      .json({ success: false, message: `no username or password supplied.` })
+  }
+
+  User.findOne({ username: tUsername}, 'password', function (err, users) {
+    //console.log(users)
+      if (users == null || err)
+        res.status(401).json({ success: false, message: `error` });
+      else{
+        const retPass = users.password;
+        // assuming we found the user, check the password is correct
+        bcrypt.compare(tPassword, retPass).then(function(result) {
+          //console.log("===" + result) //debugging
+          if (result){
+            const payload = { id: users.id } // some data we'll encode into the token
+            const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
+            res.json({ success: true, username: tUsername, token: token }) // send the token to the client to store
+          }
+          else{
+            res.status(401).json({ success: false, message: "passwords did not match" })
+          }
+        });
+      }
+
+  })
+  return;
+});
+
+// ===================== END LOGIN ROUTE ======================
+
 
 // parse stations file
 const stationsData = JSON.parse(
@@ -29,18 +143,62 @@ const stationsData = JSON.parse(
 );
 const stationIDs = Object.keys(stationsData);
 
-// route for HTTP GET requests to the root document
-app.get("/", (req, res) => {
-  res.send("Goodbye world!");
+// ================= LINES -> STATIONS ROUTES ==================
+
+app.get("/allLines", (req, res, next) => {
+  const endpoint = API_DOMAIN + "/routes"
+  axios
+    .get(endpoint)
+    .then((apiResponse) => {
+      res.json(apiResponse.data.data)
+    }) // pass data along directly to client
+    .catch((err) => next(err)); // pass any errors to express
+
 });
 
-// proxy requests to/from an API
-app.get("/apiCallTest", (req, res, next) => {
+app.get("/lines/:id", (req, res, next) => {
+  const endpoint = API_DOMAIN + "/by-route/" + req.params.id
   axios
-    .get("https://my.api.mockaroo.com/line0.json?key=57b58bf0")
-    .then((apiResponse) => res.json(apiResponse.data)) // pass data along directly to client
+    .get(endpoint)
+    .then((apiResponse) => {
+      const data = apiResponse.data.data
+      console.log(data)
+      const retVal = parseLines(filterDuplicates(data), req.params.id)
+      //console.log(retVal)
+      /*
+      data.sort((a,b) => {
+        Object.keys
+        //console.log(parseInt(Object.keys(a.stops)[0]))
+        //console.log(Object.keys(b.stops)[0])
+        return parseInt(Object.keys(a.stops)[0]) - parseInt(Object.keys(b.stops)[0])
+      })
+      */
+      res.json(retVal)
+    }) // pass data along directly to client
     .catch((err) => next(err)); // pass any errors to express
-});
+})
+
+function parseLines(data, route){
+  data.forEach((e) => {
+    //console.log(e.N)
+    e.N = getTrains(route, e.N)
+    e.S = getTrains(route, e.S)
+    e.last_update = minutesAgo(e.last_update)
+  })
+  return data
+}
+
+function filterDuplicates(data){
+  const ids = []
+  const newData = []
+  data.forEach((station) => {
+    if(!ids.includes(station.id)){
+      ids.push(station.id)
+      newData.push(station)
+    }
+  })
+  return newData
+}
 
 // returns array of station objects, with id, name, and list of routes
 app.get("/allStations", (req, res, next) => {
