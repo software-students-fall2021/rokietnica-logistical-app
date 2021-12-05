@@ -25,7 +25,6 @@ const SubwayLinesInfo = (props) => {
         .then((response) => {
           console.log("refresh alert")
           setData(response.data);
-          //setData(response.data);
         })
         .catch((err) => {
           console.log(`Error with server`);
