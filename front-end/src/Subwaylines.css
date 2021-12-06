@@ -2,12 +2,13 @@
     display: inline-grid;
     grid-template-columns: auto auto auto;
     background-color: beige;
+	align-content: center;
     padding: 10px;
 }
 
 .grid-item-blue{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color: rgb(44, 47, 230);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -17,8 +18,8 @@
     text-align: center;
 }
 .grid-item-orange{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color: rgb(235, 110, 8);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -28,8 +29,8 @@
     text-align: center;
 }
 .grid-item-green{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(180, 250, 90);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -39,8 +40,8 @@
     text-align: center;
 }
 .grid-item-grey{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(179, 179, 179);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -50,8 +51,8 @@
     text-align: center;
 }
 .grid-item-brown{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(78, 35, 6);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -61,8 +62,8 @@
     text-align: center;
 }
 .grid-item-yellow{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(240, 189, 48);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -72,8 +73,8 @@
     text-align: center;
 }
 .grid-item-red{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:red;
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -83,8 +84,8 @@
     text-align: center;
 }
 .grid-item-darkgreen{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:green;
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -94,8 +95,8 @@
     text-align: center;
 }
 .grid-item-purple{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(143, 62, 190);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -105,8 +106,8 @@
     text-align: center;
 }
 .grid-item-teal{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(35, 229, 243);
 	border-radius: 50%;
 	grid-row:auto / span 1;
@@ -116,8 +117,8 @@
     text-align: center;
 }
 .grid-item-shuttle{
-    width:40px;
-	height:40px;
+    width:100px;
+	height:100px;
 	background-color:rgb(85, 82, 82);
 	border-radius: 50%;
 	grid-row:auto / span 1;
