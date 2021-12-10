@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios"
 import NavBar from "./NavBar";
 
-import "./App.css";
+import "./Signup.css";
 
 const Signup = (props) => {
     const [status, setStatus] = useState({})
@@ -55,7 +55,10 @@ const Signup = (props) => {
               <h1>NYC Route Sign Up</h1>
               <p>{errorMessage}</p>
               <p>{status.success}</p>
+
+              <div classname="formContent">
               <form onSubmit={handleSubmit}>
+                
                   <label>Username:</label> 
                   <input type="text" name="username" placeholder=" Username..." />
                   <br />
@@ -70,6 +73,7 @@ const Signup = (props) => {
                   <br />
                   <input type="submit" value="Sign Up" />
               </form>
+            </div>
               <br />
               <br />
               <p>
