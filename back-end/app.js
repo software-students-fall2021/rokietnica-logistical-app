@@ -31,8 +31,8 @@ mongoose.connect(db_url, () => {
 
 //models
 const User = require('./models/userModel')
-//const FavLine = require('./models/favLineModel')
 //const FavStation = require('./models/favStationModel')
+//const FavLine = require('./models/favLineModel')
 
 // ===================== END MONGODB SETUP ======================
 
@@ -136,6 +136,11 @@ app.post("/login", function (req, res) {
 
 // ===================== END LOGIN ROUTE ======================
 
+// ====================== FAVOURITE STATIONS ===================
+
+
+// ===================== END FAVOURITE STATIONS ====================
+
 
 // parse stations file
 const stationsData = JSON.parse(
@@ -155,7 +160,6 @@ app.get("/allLines", (req, res, next) => {
     .catch((err) => next(err)); // pass any errors to express
 
 });
-
 app.get("/lines/:id", (req, res, next) => {
   const endpoint = API_DOMAIN + "/by-route/" + req.params.id
   axios

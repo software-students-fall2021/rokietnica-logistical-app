@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios"
 
 import NavBar from "./NavBar";
-
+import "./Signup.css";
 const Login = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
