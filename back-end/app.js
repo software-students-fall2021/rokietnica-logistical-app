@@ -31,8 +31,8 @@ mongoose.connect(db_url, () => {
 
 //models
 const User = require('./models/userModel')
-const FavStation = require('./models/favStationModel')
-const FavLine = require('./models/favLineModel')
+//const FavStation = require('./models/favStationModel')
+//const FavLine = require('./models/favLineModel')
 
 // ===================== END MONGODB SETUP ======================
 
