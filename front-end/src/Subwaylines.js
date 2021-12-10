@@ -58,7 +58,7 @@ function Lines() {
             setData(response.data);
           })
           .catch((err) => {
-            console.log(`Sorry, buster.  No more requests allowed today!`);
+            console.log(`No more requests`);
             console.error(err);
 
             // make some backup fake data
