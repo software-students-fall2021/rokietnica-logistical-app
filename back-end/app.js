@@ -137,9 +137,6 @@ app.post("/login", function (req, res) {
 // ===================== END LOGIN ROUTE ======================
 
 // ====================== FAVOURITE STATIONS ===================
-app.post("/stations", function (req, res){
-  
-}
 
 
 // ===================== END FAVOURITE STATIONS ====================
