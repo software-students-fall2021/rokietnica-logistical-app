@@ -57,15 +57,15 @@ const Signup = (props) => {
               <p>{status.success}</p>
               <form onSubmit={handleSubmit}>
                   <label>Username:</label> 
-                  <input type="text" name="username" placeholder="Username" />
+                  <input type="text" name="username" placeholder=" Username..." />
                   <br />
                   <br />
                   <label>Password: </label>
-                  <input type="password" name="password" placeholder="Password" />
+                  <input type="password" name="password" placeholder=" Password..." />
                   <br />
                   <br />
                   <label>Verify Password: </label>
-                  <input type="password" name="passwordCheck" placeholder="Reenter password..." />
+                  <input type="password" name="passwordCheck" placeholder=" Reenter password..." />
                   <br />
                   <br />
                   <input type="submit" value="Sign Up" />
