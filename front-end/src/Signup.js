@@ -3,6 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios"
 import NavBar from "./NavBar";
 
+import "./App.css";
+
 const Signup = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
@@ -50,20 +52,20 @@ const Signup = (props) => {
         <div>
           <NavBar />
           <div className="mainContent">
-              <h1>Sign Up</h1>
+              <h1>NYC Route Sign Up</h1>
               <p>{errorMessage}</p>
               <p>{status.success}</p>
               <form onSubmit={handleSubmit}>
-                  <label>Username: </label>
-                  <input type="text" name="username" placeholder="username" />
+                  <label>Username:</label> 
+                  <input type="text" name="username" placeholder=" Username..." />
                   <br />
                   <br />
                   <label>Password: </label>
-                  <input type="password" name="password" placeholder="password" />
+                  <input type="password" name="password" placeholder=" Password..." />
                   <br />
                   <br />
-                  <label>Re-type Password: </label>
-                  <input type="password" name="passwordCheck" placeholder="passwordCheck" />
+                  <label>Verify Password: </label>
+                  <input type="password" name="passwordCheck" placeholder=" Reenter password..." />
                   <br />
                   <br />
                   <input type="submit" value="Sign Up" />
@@ -71,10 +73,7 @@ const Signup = (props) => {
               <br />
               <br />
               <p>
-                  If you already have an account you can
-                  <br />
-                  <Link  to="/login">
-                  Login In
+                  If you already have an account you can <Link  to="/login">Login In
                   </Link>
               </p>
           </div>
