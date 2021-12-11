@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const API_DOMAIN = "http://localhost:5000";
 require("dotenv").config({ silent: true });
-
+ 
 // allow CORS, so React app on port 3000 can make requests to Express server on port 4000
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -31,8 +31,8 @@ mongoose.connect(db_url, () => {
 
 //models
 const User = require('./models/userModel')
-//const FavStation = require('./models/favStationModel')
-//const FavLine = require('./models/favLineModel')
+const FavStation = require('./models/favStationModel')
+const FavLine = require('./models/favLineModel')
 
 // ===================== END MONGODB SETUP ======================
 
