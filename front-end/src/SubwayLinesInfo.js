@@ -20,6 +20,8 @@ const SubwayLinesInfo = (props) => {
   const [initLoad, setInitLoad] = useState(true);
   const [favLoad, setFavLoad] = useState(true);
 
+  const [err, setErr] = useState(false);
+
   const subwayLine = props.match.params.name;
 
   // the following side-effect will be called once upon initial render
@@ -33,7 +35,7 @@ const SubwayLinesInfo = (props) => {
         .catch((err) => {
           console.log(`Error with server`);
           console.error(err);
-          setInitLoad(false)
+          setErr(true)
         })
         .finally(() => {
           setRefresh(false);
@@ -55,8 +57,8 @@ const SubwayLinesInfo = (props) => {
         //console.error(err);
         setFavStation([]);
         setFavList([]);
-        setFavLoad(false)
-        console.log(initLoad)
+        setErr(true)
+        //console.log(initLoad)
       })
       .finally(() => {
         setRefresh(false);
@@ -88,7 +90,7 @@ const SubwayLinesInfo = (props) => {
     setRefresh(true);
   }
 
-  if(initLoad || favLoad){
+  if (initLoad || favLoad){
     return (
       <div>
         <NavBar />
@@ -111,16 +113,17 @@ const SubwayLinesInfo = (props) => {
             (reverse[0]) ? ("\u25BC") : ("\u25B2")
           } </Button>
           <Button onClick={refreshPage} id = "refresh"> Refresh </Button>
-          <Accordion id={reverse[1]}>
+          <Accordion>
             {favStation.map((item) => (
               (item.routes).includes(subwayLine)
-              ? (<SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} fav= {favList}/>)
+              ? (<SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/>)
               : null
             ))}
-
+          </Accordion>
+          <Accordion id={reverse[1]}>
             {data.map((item) => (
               !favList.includes(item.id)
-                ? ( <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} fav= {favList}/> )
+                ? ( <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/> )
                 : null
             ))}
           </Accordion>

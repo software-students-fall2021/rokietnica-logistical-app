@@ -29,6 +29,7 @@ const SubwayLinesInfoItem = (props) => {
         headers: { Authorization: `JWT ${jwtToken}` }
       })
       .then((response) => {
+        props.onChange("true");
       })
       .catch((err) => {
         console.log(`Error`);
@@ -43,6 +44,7 @@ const SubwayLinesInfoItem = (props) => {
         headers: { Authorization: `JWT ${jwtToken}` }
       })
       .then((response) => {
+        props.onChange("true");
       })
       .catch((err) => {
         console.log(`Error`);
@@ -53,7 +55,12 @@ const SubwayLinesInfoItem = (props) => {
   return (
     <Accordion.Item eventKey={props.details.id}>
       <Accordion.Header>
-        {(favStation)?("\u2605"):("\u2606")} {props.details.name}
+        {localStorage.getItem("token")?(
+          (favStation)?
+            ("\u2605"):
+            ("\u2606"))
+          :null
+        } {props.details.name}
       </Accordion.Header>
       <Accordion.Body>
         {(listItems.length > 0)?(
@@ -78,9 +85,12 @@ const SubwayLinesInfoItem = (props) => {
           </div>
         )
         }
-        {(favStation)?
-        (<Button variant="outline-dark" onClick={() => deleteStation(props.details.id)}> Remove </Button>):
-        (<Button variant="outline-dark" onClick={() => saveStation(props.details.id)}> Favorite </Button>)}
+        {localStorage.getItem("token")?(
+          (favStation)?
+            (<Button variant="outline-dark" onClick={() => deleteStation(props.details.id)}> Remove </Button>):
+            (<Button variant="outline-dark" onClick={() => saveStation(props.details.id)}> Favorite </Button>))
+          :null
+        }
       </Accordion.Body>
     </Accordion.Item>
   );
