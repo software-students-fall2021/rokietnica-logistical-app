@@ -157,6 +157,19 @@ app.get("/addFavStation/:id", passport.authenticate("jwt", { session: false }), 
   });
 });
 
+app.get("/removeFavStation/:id", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+  const stationId = req.params.id;
+  FavStation.findOneAndUpdate({userId : req.user.id}, { $pull: { stationIds: stationId } } ,function(err, userFav){
+    if (err | userFav == null) {
+      console.log(err)
+      return res.status(401).send(err);
+    }
+    else{
+      return res.json({success: true, message: "station saved"})
+    }
+  });
+});
+
 app.get("/getFavStations/:line", passport.authenticate("jwt", { session: false }), (req, res, next) => {
   const line = req.params.line;
   FavStation.findOne({userId : req.user.id}, "stationIds",function(err, userFav){

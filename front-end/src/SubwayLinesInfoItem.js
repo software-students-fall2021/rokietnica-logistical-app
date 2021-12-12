@@ -39,7 +39,7 @@ const SubwayLinesInfoItem = (props) => {
   function deleteStation(stationId){
     //console.log(stationId); //debugging
     axios
-      .get(`${process.env.REACT_APP_BACKEND}/addFavStation/${stationId}`, {
+      .get(`${process.env.REACT_APP_BACKEND}/removeFavStation/${stationId}`, {
         headers: { Authorization: `JWT ${jwtToken}` }
       })
       .then((response) => {
