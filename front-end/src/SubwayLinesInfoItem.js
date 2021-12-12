@@ -1,7 +1,6 @@
 import React from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
-import { useHistory } from 'react-router-dom';
 
 import axios from "axios";
 

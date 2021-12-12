@@ -20,8 +20,6 @@ const SubwayLinesInfo = (props) => {
   const [initLoad, setInitLoad] = useState(true);
   const [favLoad, setFavLoad] = useState(true);
 
-  const [err, setErr] = useState(false);
-
   const subwayLine = props.match.params.name;
 
   // the following side-effect will be called once upon initial render
