@@ -11,9 +11,9 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt") // look f
 jwtOptions.secretOrKey = process.env.JWT_SECRET // an arbitrary string used during encryption - see the .env file
 
 const jwtStrategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  //console.log("JWT payload received", jwt_payload)
+  console.log("JWT payload received", jwt_payload)
   // try to find a matching user in our "database"
-  const user = User.findOne({ id: jwt_payload.id }, function(err, user) {
+  const user = User.findById(jwt_payload.id , function(err, user) {
     if (user) {
       console.log(user)
       return next(null, user);
