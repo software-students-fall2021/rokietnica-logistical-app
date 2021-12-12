@@ -4,6 +4,7 @@ import axios from "axios"
 
 import NavBar from "./NavBar";
 import "./Signup.css";
+import logo from "./NYCSubway.webp";
 const Login = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
@@ -58,7 +59,7 @@ const Login = (props) => {
           <div>
             <NavBar />
             <div className="mainContent">
-              <h1>NYC Route Log in</h1>
+              <h1>NYC ROUTE Log in</h1>
               <p>{errorMessage}</p>
               <p> {status.message} </p>
               <form onSubmit={handleSubmit}>
@@ -72,7 +73,10 @@ const Login = (props) => {
                   <br />
                   <input type="submit" value="Log In" />
               </form>
-            </div>
+             </div>
+             <div className="mainContent"> 
+             <img src={logo} alt="Manhattan" height="1000" width="1000"/>
+             </div>
           </div>
         )
     // otherwise, if the user has successfully logged-in, redirect them to a different page
