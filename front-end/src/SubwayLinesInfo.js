@@ -94,7 +94,7 @@ const SubwayLinesInfo = (props) => {
   }
 
   return (
-    <div className = "mainContent">
+    <div className = "main">
         <h1> {subwayLine} Line Info </h1>
         <Link className="App-link" to="/lines">
           <Button>Back</Button>
