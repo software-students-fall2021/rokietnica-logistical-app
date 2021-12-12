@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
-
+import {ReactComponent as SubwaySvg} from './New_York_Subway_Map_Alargule.svg';
 
 import "./Homepage.css";
 
@@ -88,7 +88,9 @@ const Homepage = () => {
         </Link>
       </Menu>
     </div>
-    
+    <div>
+        <SubwaySvg style = {{height: 800, width:800}} />
+      </div>
    </div>
   );
 };

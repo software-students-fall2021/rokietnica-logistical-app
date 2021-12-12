@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
-
+import "./NavBar.css";
 
 const NavBar = () => {
   return (
-    <Navbar bg = "light" sticky="top" >
+    <Navbar className="color-nav" variant = "light" sticky="top" >
         <Navbar.Collapse className="justify-content-center">
             <Link className = "App-link" to="/">
                 <Navbar.Brand > NYC ROUTE </Navbar.Brand>
