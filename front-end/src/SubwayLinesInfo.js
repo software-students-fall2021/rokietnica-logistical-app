@@ -33,7 +33,6 @@ const SubwayLinesInfo = (props) => {
         .catch((err) => {
           console.log(`Error with server`);
           console.error(err);
-          setErr(true)
         })
         .finally(() => {
           setRefresh(false);
@@ -55,7 +54,6 @@ const SubwayLinesInfo = (props) => {
         //console.error(err);
         setFavStation([]);
         setFavList([]);
-        setErr(true)
         //console.log(initLoad)
       })
       .finally(() => {
