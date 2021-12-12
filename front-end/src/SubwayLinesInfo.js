@@ -27,7 +27,7 @@ const SubwayLinesInfo = (props) => {
     if (refresh){
       axios(`${process.env.REACT_APP_BACKEND}/lines/${subwayLine}`)
         .then((response) => {
-          console.log("refresh alert")
+          console.log("refresh alert");
           setData(response.data);
         })
         .catch((err) => {
