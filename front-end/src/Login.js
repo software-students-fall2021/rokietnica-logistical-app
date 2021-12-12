@@ -58,16 +58,16 @@ const Login = (props) => {
           <div>
             <NavBar />
             <div className="mainContent">
-              <h1>Log in</h1>
+              <h1>NYC Route Log in</h1>
               <p>{errorMessage}</p>
               <p> {status.message} </p>
               <form onSubmit={handleSubmit}>
                   <label>Username: </label>
-                  <input type="text" name="username" placeholder="username" />
+                  <input type="text" name="username" placeholder="Enter username..." />
                   <br />
                   <br />
                   <label>Password: </label>
-                  <input type="password" name="password" placeholder="password" />
+                  <input type="password" name="password" placeholder="Enter password..." />
                   <br />
                   <br />
                   <input type="submit" value="Log In" />
