@@ -2,20 +2,11 @@ import React, { useState, useEffect } from "react"
 import { Redirect } from "react-router-dom";
 import axios from "axios"
 
-import NavBar from "./NavBar";
 import "./Signup.css";
 import logo from "./NYCSubway.webp";
 const Login = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
-
-    /*
-    useEffect(() => {
-        if(status.success){
-            props.setuser(status)
-        }
-    }, [status])
-    */
 
     useEffect(() => {
         // if the user is logged-in, save the token to local storage
@@ -27,7 +18,6 @@ const Login = (props) => {
       }, [status])
 
     const handleSubmit = async e => {
-        // prevent the HTML form from actually submitting... we use React's javascript code instead
         e.preventDefault()
 
         try {
@@ -57,7 +47,6 @@ const Login = (props) => {
     if (!status.success)
         return (
           <div>
-            <NavBar />
             <div className="mainContent">
               <h1>NYC ROUTE Log in</h1>
               <p>{errorMessage}</p>
@@ -76,7 +65,6 @@ const Login = (props) => {
              </div>
              <div className="mainContent"> 
              <img src={logo} alt="Manhattan" height="250" width="250"/>
-
              </div>
           </div>
         )
