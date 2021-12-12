@@ -14,7 +14,7 @@ function App() {
     <div>
       <NavBar/>
       <div className = "mainContent">
-        <Homepage changeState = {setLoggedIn}/>
+        <Homepage changeState = {setLoggedIn} state = {loggedIn} />
       </div>
     </div>
   );
