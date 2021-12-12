@@ -9,12 +9,16 @@ import SubwayLinesInfoItem from "./SubwayLinesInfoItem.js";
 import NavBar from "./NavBar";
 
 import "./SubwayLinesInfo.css";
-
+ 
 const SubwayLinesInfo = (props) => {
   // start a state varaible with a blank array
   const [data, setData] = useState([]);
+  const [favStation, setFavStation] = useState([]);
+  const [favList, setFavList] = useState([]);
   const [reverse, setReverse] = useState([false, "regularOrder"]);
   const [refresh, setRefresh] = useState(true);
+  const [initLoad, setInitLoad] = useState(true);
+  const [favLoad, setFavLoad] = useState(true);
 
   const subwayLine = props.match.params.name;
 
@@ -29,10 +33,35 @@ const SubwayLinesInfo = (props) => {
         .catch((err) => {
           console.log(`Error with server`);
           console.error(err);
+          setInitLoad(false)
         })
         .finally(() => {
           setRefresh(false);
+          setInitLoad(false)
         });
+      
+      const jwtToken = localStorage.getItem("token");
+      axios
+      .get(`${process.env.REACT_APP_BACKEND}/getFavStations/${subwayLine}`, {
+        headers: { Authorization: `JWT ${jwtToken}` }
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setFavStation(response.data.data);
+        setFavList(response.data.stationIds)
+      })
+      .catch((err) => {
+        //console.log(`Error with server`);
+        //console.error(err);
+        setFavStation([]);
+        setFavList([]);
+        setFavLoad(false)
+        console.log(initLoad)
+      })
+      .finally(() => {
+        setRefresh(false);
+        setFavLoad(false)
+      });  
     }
   }, [refresh, subwayLine]);
 
@@ -59,6 +88,17 @@ const SubwayLinesInfo = (props) => {
     setRefresh(true);
   }
 
+  if(initLoad || favLoad){
+    return (
+      <div>
+        <NavBar />
+        <div className = "mainContent">
+            <h1> Loading </h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <NavBar />
@@ -72,8 +112,16 @@ const SubwayLinesInfo = (props) => {
           } </Button>
           <Button onClick={refreshPage} id = "refresh"> Refresh </Button>
           <Accordion id={reverse[1]}>
+            {favStation.map((item) => (
+              (item.routes).includes(subwayLine)
+              ? (<SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} fav= {favList}/>)
+              : null
+            ))}
+
             {data.map((item) => (
-              <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine}/>
+              !favList.includes(item.id)
+                ? ( <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} fav= {favList}/> )
+                : null
             ))}
           </Accordion>
       </div>

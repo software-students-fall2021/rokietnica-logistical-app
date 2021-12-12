@@ -1,11 +1,16 @@
 import React from "react";
 import Accordion from "react-bootstrap/Accordion";
+import Button from "react-bootstrap/Button";
+import { useHistory } from 'react-router-dom';
+
+import axios from "axios";
 
 import "./SubwayLinesInfoItem.css";
 
 const SubwayLinesInfoItem = (props) => {
   var num = 0;
-  //console.log(props.details.N)
+  const favStation = props.fav.includes(props.details.id);
+  //console.log(props.fav.includes(props.details.id))
   const listItems = props.details.N.slice(0,3).map((number) => (
     <li key = {num++}>{number} min </li>
   ));
@@ -13,9 +18,43 @@ const SubwayLinesInfoItem = (props) => {
   const listItemsD = props.details.S.slice(0,3).map((number) => (
     <li key = {num++}>{number} min </li>
   ));
+
+  const jwtToken = localStorage.getItem("token");
+  //console.log(jwtToken);
+
+  function saveStation(stationId){
+    //console.log(stationId); //debugging
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/addFavStation/${stationId}`, {
+        headers: { Authorization: `JWT ${jwtToken}` }
+      })
+      .then((response) => {
+      })
+      .catch((err) => {
+        console.log(`Error`);
+        console.error(err);
+      })
+  }
+
+  function deleteStation(stationId){
+    //console.log(stationId); //debugging
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/addFavStation/${stationId}`, {
+        headers: { Authorization: `JWT ${jwtToken}` }
+      })
+      .then((response) => {
+      })
+      .catch((err) => {
+        console.log(`Error`);
+        console.error(err);
+      })
+  }
+
   return (
     <Accordion.Item eventKey={props.details.id}>
-      <Accordion.Header>{props.details.name}</Accordion.Header>
+      <Accordion.Header>
+        {(favStation)?("\u2605"):("\u2606")} {props.details.name}
+      </Accordion.Header>
       <Accordion.Body>
         {(listItems.length > 0)?(
           <div className= "list">
@@ -39,6 +78,9 @@ const SubwayLinesInfoItem = (props) => {
           </div>
         )
         }
+        {(favStation)?
+        (<Button variant="outline-dark" onClick={() => deleteStation(props.details.id)}> Remove </Button>):
+        (<Button variant="outline-dark" onClick={() => saveStation(props.details.id)}> Favorite </Button>)}
       </Accordion.Body>
     </Accordion.Item>
   );
