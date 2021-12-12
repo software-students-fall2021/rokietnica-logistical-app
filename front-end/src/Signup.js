@@ -56,7 +56,7 @@ const Signup = (props) => {
               <p>{errorMessage}</p>
               <p>{status.success}</p>
 
-              <div classname="formContent">
+              <div className="formContent">
               <form onSubmit={handleSubmit}>
                 
                   <label>Username:</label> 

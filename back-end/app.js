@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const API_DOMAIN = "http://localhost:5000";
 require("dotenv").config({ silent: true });
-
+ 
 // allow CORS, so React app on port 3000 can make requests to Express server on port 4000
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -31,8 +31,8 @@ mongoose.connect(db_url, () => {
 
 //models
 const User = require('./models/userModel')
-//const FavStation = require('./models/favStationModel')
-//const FavLine = require('./models/favLineModel')
+const FavStation = require('./models/favStationModel')
+const FavLine = require('./models/favLineModel')
 
 // ===================== END MONGODB SETUP ======================
 
@@ -76,7 +76,7 @@ app.post("/signup", function (req, res) {
         console.log(err)
         if (err.name === 'MongoServerError' && err.code === 11000) {
           // Duplicate username
-          return res.status(422).send({ succes: false, message: 'User already exist!' });
+          return res.status(422).send({ success: false, message: 'User already exist!' });
         }
         // Some other error
         return res.status(401).send(err);
@@ -84,15 +84,6 @@ app.post("/signup", function (req, res) {
       return res.json({ success: true, username: req.body.username});
     });
   });
-
-  /*
-  User.findOne({ username: req.body.username}, 'password', function (err, users) {
-    if (err) return res.status(401).json({ success: false, message: `user not found: ${tUsername}.` });
-    const payload = { id: users.id } // some data we'll encode into the token
-    const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
-    res.json({ success: true, username: req.body.username, token: token }) // send the token to the client to store
-  });
-  */
 });
 
 // ===================== END SIGNUP ROUTE ======================
@@ -138,6 +129,77 @@ app.post("/login", function (req, res) {
 
 // ====================== FAVOURITE STATIONS ===================
 
+app.get("/addFavStation/:id", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+  const stationId = req.params.id;
+  FavStation.findOne({userId : req.user.id}, "stationIds",function(err, userFav){
+    if (err) {
+      console.log(err)
+      return res.status(401).send(err);
+    }
+    if (userFav == null){
+      const newFav = new FavStation({
+        userId: req.user.id,
+        stationIds: [stationId]
+      })
+      newFav.save();
+      return res.json({success: true, message: "first station saved"})
+    }
+    else{
+      if(userFav.stationIds.includes(stationId)){
+        return res.status(422).send({ success: false, message: 'Station Already Saved' });
+      }
+      else{
+        userFav.stationIds.push(stationId);
+        userFav.save();
+        return res.json({success: true, message: "station saved"})
+      }
+    }
+  });
+});
+
+app.get("/removeFavStation/:id", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+  const stationId = req.params.id;
+  FavStation.findOneAndUpdate({userId : req.user.id}, { $pull: { stationIds: stationId } } ,function(err, userFav){
+    if (err | userFav == null) {
+      console.log(err)
+      return res.status(401).send(err);
+    }
+    else{
+      return res.json({success: true, message: "station saved"})
+    }
+  });
+});
+
+app.get("/getFavStations/:line", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+  const line = req.params.line;
+  FavStation.findOne({userId : req.user.id}, "stationIds",function(err, userFav){
+    if (userFav == null | err) {
+      console.log(err)
+      return res.status(401).send(err);
+    }
+    else{
+      const ids = userFav.stationIds.join(",");
+      const endpoint = API_DOMAIN + "/by-id/" + ids;
+      axios
+        .get(endpoint)
+        .then((response) => {
+          const data = response.data.data
+          const retData = {};
+          retData.data = parseLines(response.data.data, line)
+          retData.stationIds = userFav.stationIds;
+          console.log(retData);
+          res.json(retData);
+        })
+        .catch((error) => {
+          console.log(error);
+          next(error);
+        });
+      //res.json(userFav);
+    }
+  });
+});
+
+
 
 // ===================== END FAVOURITE STATIONS ====================
 
@@ -147,7 +209,7 @@ const stationsData = JSON.parse(
   fs.readFileSync("../MTAPI-master/data/stations.json").toString()
 );
 const stationIDs = Object.keys(stationsData);
-
+ 
 // ================= LINES -> STATIONS ROUTES ==================
 
 app.get("/allLines", (req, res, next) => {
@@ -166,17 +228,8 @@ app.get("/lines/:id", (req, res, next) => {
     .get(endpoint)
     .then((apiResponse) => {
       const data = apiResponse.data.data
-      console.log(data)
+      //console.log(data)
       const retVal = parseLines(filterDuplicates(data), req.params.id)
-      //console.log(retVal)
-      /*
-      data.sort((a,b) => {
-        Object.keys
-        //console.log(parseInt(Object.keys(a.stops)[0]))
-        //console.log(Object.keys(b.stops)[0])
-        return parseInt(Object.keys(a.stops)[0]) - parseInt(Object.keys(b.stops)[0])
-      })
-      */
       res.json(retVal)
     }) // pass data along directly to client
     .catch((err) => next(err)); // pass any errors to express

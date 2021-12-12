@@ -19,7 +19,7 @@ function Lines() {
       else if(line === "7"){
         ret[0] = "purple";
       }
-      else if(["N", "Q", "R"].includes(line)){
+      else if(["N", "Q", "R", "W"].includes(line)){
         ret[0] = "yellow";
       }
       else if(["B", "D", "F", "M"].includes(line)){
@@ -37,17 +37,41 @@ function Lines() {
       else if (line === "L"){
         ret[0] = "grey";
       }
-      else if (["S", "FS"].includes(line)){
+      else if (line === "T"){
+        ret[0] = "teal";
+      }
+      else if (line === "SIR"){
+        ret[0] = "sir";
+      }
+      else if (["S", "FS", "SR"].includes(line)){
         ret[0] = "shuttle";
         if (line === "FS"){
           ret[1] = "SF"
+          ret[2] = "circle"
           return ret
         }
+      }
+      else if (["5X", "6X", "7X"].includes(line)){
+        ret[2] = "diamond";
+        if (line === "7X"){
+          ret[0] = "purple";
+          ret[1] = "7";
+          return ret;
+        }
+        else if (line === "5X"){
+          ret[1] = "5";
+        }
+        else{
+          ret[1] = "6";
+        }
+        ret[0] = "dark-green";
+        return ret;
       }
       else{
         ret[0] = ""
       }
       ret[1] = line
+      ret[2] = "circle"
       return ret
     }
     var id = 0;
@@ -62,17 +86,20 @@ function Lines() {
             console.error(err);
 
             // make some backup fake data
-            const backupData = [];
+            const backupData = ["1", "2", "3", "4", "5", "5X", "6", "6X", "7", "7X", "A", "C", "E", "SIR", "SR"];
             setData(backupData);
           });
       }, []);
+
     return (
       <div>
         <NavBar />
-        <div className="grid-container">
-          {data.map((item) => (
-              <SubwayIcon key = {id++} details = {getColor(item)} line = {item}/>
-          ))}
+        <div id = "main">
+          <div className="grid-container">
+            {data.map((item) => (
+                <SubwayIcon key = {id++} details = {getColor(item)} line = {item}/>
+            ))}
+          </div>
         </div>
       </div>
         );
