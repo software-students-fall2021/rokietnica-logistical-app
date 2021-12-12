@@ -76,6 +76,7 @@ const Login = (props) => {
              </div>
              <div className="mainContent"> 
              <img src={logo} alt="Manhattan" height="1000" width="1000"/>
+             
              </div>
           </div>
         )
