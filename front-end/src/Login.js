@@ -2,19 +2,10 @@ import React, { useState, useEffect } from "react"
 import { Redirect } from "react-router-dom";
 import axios from "axios"
 
-import NavBar from "./NavBar";
 import "./Signup.css";
 const Login = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
-
-    /*
-    useEffect(() => {
-        if(status.success){
-            props.setuser(status)
-        }
-    }, [status])
-    */
 
     useEffect(() => {
         // if the user is logged-in, save the token to local storage
@@ -26,7 +17,6 @@ const Login = (props) => {
       }, [status])
 
     const handleSubmit = async e => {
-        // prevent the HTML form from actually submitting... we use React's javascript code instead
         e.preventDefault()
 
         try {
@@ -55,24 +45,21 @@ const Login = (props) => {
 
     if (!status.success)
         return (
-          <div>
-            <NavBar />
-            <div className="mainContent">
-              <h1>Log in</h1>
-              <p>{errorMessage}</p>
-              <p> {status.message} </p>
-              <form onSubmit={handleSubmit}>
-                  <label>Username: </label>
-                  <input type="text" name="username" placeholder="username" />
-                  <br />
-                  <br />
-                  <label>Password: </label>
-                  <input type="password" name="password" placeholder="password" />
-                  <br />
-                  <br />
-                  <input type="submit" value="Log In" />
-              </form>
-            </div>
+          <div className="mainContent">
+            <h1>Log in</h1>
+            <p>{errorMessage}</p>
+            <p> {status.message} </p>
+            <form onSubmit={handleSubmit}>
+                <label>Username: </label>
+                <input type="text" name="username" placeholder="username" />
+                <br />
+                <br />
+                <label>Password: </label>
+                <input type="password" name="password" placeholder="password" />
+                <br />
+                <br />
+                <input type="submit" value="Log In" />
+            </form>
           </div>
         )
     // otherwise, if the user has successfully logged-in, redirect them to a different page

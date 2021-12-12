@@ -7,7 +7,6 @@ import axios from "axios";
 
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
-import NavBar from "./NavBar";
 
 const EXPRESS_DOMAIN = "http://localhost:4000";
 
@@ -68,77 +67,8 @@ const SubwayStation = (props) => {
 
   if (station.name && station.routes.length === 0) {
     return (
-      <div>
-        <NavBar />
-        <div className="mainContent">
-          <div className="container">
-            <h1 className="stationName">{station.name}</h1>
-            <div className="buttonsWrapper">
-              <Link className="App-link" to="/stations">
-                <Button variant="danger">Back</Button>
-              </Link>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  setRefresh(true);
-                }}
-              >
-                Refresh
-              </Button>
-            </div>
-            <div className="no-routes">
-              No trains are arriving within the next hour.
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (showFailure) {
-    return (
-      <div>
-        <NavBar />
-        <div className="mainContent">
-          <div className="container">
-            <Alert
-              variant="danger"
-              onClose={() => setShowFailure(false)}
-              dismissible
-            >
-              <p className="alertmsg">Error with fetching train data</p>
-            </Alert>
-            <div className="buttonsWrapper">
-              <Link className="App-link" to="/stations">
-                <Button variant="danger">Back</Button>
-              </Link>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  setRefresh(true);
-                }}
-              >
-                Refresh
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <NavBar />
       <div className="mainContent">
         <div className="container">
-          {showSuccess ? (
-            <Alert variant="info" onClose={() => setSuccess(false)} dismissible>
-              <p className="alertmsg">Updated just now</p>
-            </Alert>
-          ) : (
-            ""
-          )}
           <h1 className="stationName">{station.name}</h1>
           <div className="buttonsWrapper">
             <Link className="App-link" to="/stations">
@@ -153,17 +83,77 @@ const SubwayStation = (props) => {
               Refresh
             </Button>
           </div>
-          <div className="cardsWrapper">
-            {station.routes.map((line) => {
-              return (
-                <LineCard
-                  key={line}
-                  line={line}
-                  traintimes={station.traintimes[line]}
-                />
-              );
-            })}
+          <div className="no-routes">
+            No trains are arriving within the next hour.
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showFailure) {
+    return (
+      <div className="mainContent">
+        <div className="container">
+          <Alert
+            variant="danger"
+            onClose={() => setShowFailure(false)}
+            dismissible
+          >
+            <p className="alertmsg">Error with fetching train data</p>
+          </Alert>
+          <div className="buttonsWrapper">
+            <Link className="App-link" to="/stations">
+              <Button variant="danger">Back</Button>
+            </Link>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setRefresh(true);
+              }}
+            >
+              Refresh
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mainContent">
+      <div className="container">
+        {showSuccess ? (
+          <Alert variant="info" onClose={() => setSuccess(false)} dismissible>
+            <p className="alertmsg">Updated just now</p>
+          </Alert>
+        ) : (
+          ""
+        )}
+        <h1 className="stationName">{station.name}</h1>
+        <div className="buttonsWrapper">
+          <Link className="App-link" to="/stations">
+            <Button variant="danger">Back</Button>
+          </Link>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setRefresh(true);
+            }}
+          >
+            Refresh
+          </Button>
+        </div>
+        <div className="cardsWrapper">
+          {station.routes.map((line) => {
+            return (
+              <LineCard
+                key={line}
+                line={line}
+                traintimes={station.traintimes[line]}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

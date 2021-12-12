@@ -7,8 +7,6 @@ import axios from "axios";
 import SubwayStationItem from "./SubwayStationItem";
 import "./SubwayStations.css";
 
-import NavBar from "./NavBar";
-
 const EXPRESS_DOMAIN = "http://localhost:4000";
 
 const SubwayStations = () => {
@@ -34,15 +32,12 @@ const SubwayStations = () => {
 
   if (loading) {
     return (
-      <div>
-        <NavBar />
-        <div className = "mainContent">
-          <h1>Stations</h1>
-          <div className="spinnerWrapper">
-            <Spinner className="spinner" animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
+      <div className = "mainContent">
+        <h1>Stations</h1>
+        <div className="spinnerWrapper">
+          <Spinner className="spinner" animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       </div>
     );
@@ -50,33 +45,27 @@ const SubwayStations = () => {
 
   if (showFailure) {
     return (
-      <div>
-        <NavBar />
-        <div className = "mainContent">
-          <h1>Stations</h1>
-          <Alert
-            variant="danger"
-            onClose={() => setShowFailure(false)}
-            dismissible
-          >
-            <p className="alertmsg">Error with fetching train data</p>
-          </Alert>
-        </div>
+      <div className = "mainContent">
+        <h1>Stations</h1>
+        <Alert
+          variant="danger"
+          onClose={() => setShowFailure(false)}
+          dismissible
+        >
+          <p className="alertmsg">Error with fetching train data</p>
+        </Alert>
       </div>
     );
   }
 
   return (
-    <div>
-      <NavBar />
-      <div className = "mainContent">
-        <h1>Stations</h1>
-        <ListGroup className="stationsWrapper">
-          {stations.map((st) => {
-            return <SubwayStationItem station={st} />;
-          })}
-        </ListGroup>
-      </div>
+    <div className = "mainContent">
+      <h1>Stations</h1>
+      <ListGroup className="stationsWrapper">
+        {stations.map((st) => {
+          return <SubwayStationItem station={st} />;
+        })}
+      </ListGroup>
     </div>
   );
 };

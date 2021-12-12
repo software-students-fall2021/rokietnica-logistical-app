@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation} from "react-router-dom";
 import axios from "axios"
-import NavBar from "./NavBar";
 
 import "./Signup.css";
 
@@ -9,12 +8,16 @@ const Signup = (props) => {
     const [status, setStatus] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
 
+    //const location = useLocation()
+    //const { changeState } = location.state
+
     useEffect(() => {
         // if the user is logged-in, save the token to local storage
         if (status.success && status.token) {
           console.log(`User successfully logged in: ${status.username}`)
           localStorage.setItem("token", status.token) // store the token into localStorage
           localStorage.setItem("user", status.username)
+          this.props.location.state.changeState(true)
         }
       }, [status])
 
@@ -49,8 +52,6 @@ const Signup = (props) => {
 
     if (!status.success)
         return (
-        <div>
-          <NavBar />
           <div className="mainContent">
               <h1>NYC Route Sign Up</h1>
               <p>{errorMessage}</p>
@@ -81,10 +82,7 @@ const Signup = (props) => {
                   </Link>
               </p>
           </div>
-        </div>
         )
-    // otherwise, if the user has successfully logged-in, redirect them to a different page
-    // in this example, we simply redirect to the home page, but a real app would redirect to a page that shows content only available to logged-in users
     else return <Redirect to = "/login" />
 }
 

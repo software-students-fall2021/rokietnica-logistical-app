@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import SubwayLinesInfoItem from "./SubwayLinesInfoItem.js";
-import NavBar from "./NavBar";
 
 import "./SubwayLinesInfo.css";
  
@@ -88,42 +87,36 @@ const SubwayLinesInfo = (props) => {
 
   if (initLoad || favLoad){
     return (
-      <div>
-        <NavBar />
-        <div className = "mainContent">
-            <h1> Loading </h1>
-        </div>
+      <div className = "mainContent">
+          <h1> Loading </h1>
       </div>
     );
   }
 
   return (
-    <div>
-      <NavBar />
-      <div className = "mainContent">
-          <h1> {subwayLine} Line Info </h1>
-          <Link className="App-link" to="/lines">
-            <Button>Back</Button>
-          </Link>
-          <Button onClick={reverseOrdering} id = "listOrder"> {
-            (reverse[0]) ? ("\u25BC") : ("\u25B2")
-          } </Button>
-          <Button onClick={refreshPage} id = "refresh"> Refresh </Button>
-          <Accordion>
-            {favStation.map((item) => (
-              (item.routes).includes(subwayLine)
-              ? (<SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/>)
+    <div className = "mainContent">
+        <h1> {subwayLine} Line Info </h1>
+        <Link className="App-link" to="/lines">
+          <Button>Back</Button>
+        </Link>
+        <Button onClick={reverseOrdering} id = "listOrder"> {
+          (reverse[0]) ? ("\u25BC") : ("\u25B2")
+        } </Button>
+        <Button onClick={refreshPage} id = "refresh"> Refresh </Button>
+        <Accordion>
+          {favStation.map((item) => (
+            (item.routes).includes(subwayLine)
+            ? (<SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/>)
+            : null
+          ))}
+        </Accordion>
+        <Accordion id={reverse[1]}>
+          {data.map((item) => (
+            !favList.includes(item.id)
+              ? ( <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/> )
               : null
-            ))}
-          </Accordion>
-          <Accordion id={reverse[1]}>
-            {data.map((item) => (
-              !favList.includes(item.id)
-                ? ( <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine} onChange={setRefresh} fav= {favList}/> )
-                : null
-            ))}
-          </Accordion>
-      </div>
+          ))}
+        </Accordion>
     </div>
   );
 };
