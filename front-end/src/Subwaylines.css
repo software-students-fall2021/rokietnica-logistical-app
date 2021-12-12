@@ -1,7 +1,7 @@
 .grid-container{
     display: inline-grid;
     grid-template-columns: auto auto auto;
-    background-color: beige;
+    background-color: white;
 	align-content: center;
     padding: 10px;
 }
@@ -14,7 +14,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-orange{
@@ -25,7 +25,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-green{
@@ -36,7 +36,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-grey{
@@ -47,7 +47,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-brown{
@@ -58,7 +58,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-yellow{
@@ -69,7 +69,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-red{
@@ -80,7 +80,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-darkgreen{
@@ -91,7 +91,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-purple{
@@ -102,7 +102,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-teal{
@@ -113,7 +113,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 .grid-item-shuttle{
@@ -124,7 +124,7 @@
 	grid-row:auto / span 1;
 	grid-column:auto / span 1;
 	margin:10px 0;
-    font-size: 30px;
+    font-size: 55px;
     text-align: center;
 }
 
