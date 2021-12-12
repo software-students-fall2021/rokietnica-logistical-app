@@ -61,7 +61,6 @@ const SubwayLinesInfo = (props) => {
 
   return (
     <div>
-      <NavBar />
       <div className = "mainContent">
           <h1> {subwayLine} Line Info </h1>
           <Link className="App-link" to="/lines">

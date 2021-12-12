@@ -68,7 +68,6 @@ function Lines() {
       }, []);
     return (
       <div>
-        <NavBar />
         <div className="grid-container">
           {data.map((item) => (
               <SubwayIcon key = {id++} details = {getColor(item)} line = {item}/>

@@ -35,7 +35,6 @@ const SubwayStations = () => {
   if (loading) {
     return (
       <div>
-        <NavBar />
         <div className = "mainContent">
           <h1>Stations</h1>
           <div className="spinnerWrapper">
@@ -51,7 +50,6 @@ const SubwayStations = () => {
   if (showFailure) {
     return (
       <div>
-        <NavBar />
         <div className = "mainContent">
           <h1>Stations</h1>
           <Alert
@@ -68,7 +66,6 @@ const SubwayStations = () => {
 
   return (
     <div>
-      <NavBar />
       <div className = "mainContent">
         <h1>Stations</h1>
         <ListGroup className="stationsWrapper">

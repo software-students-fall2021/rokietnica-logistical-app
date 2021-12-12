@@ -14,6 +14,7 @@ import Subwaylines from "./Subwaylines";
 import Login from "./Login";
 import Signup from "./Signup";
 import Logout from "./Logout";
+import MapView from "./MapView";
 import {
     ComposableMap,
     Geographies,
@@ -33,6 +34,7 @@ function App() {
       <Route exact path="/login" component={Login}></Route>
       <Route exact path="/signup" component={Signup}></Route>
       <Route exact path="/logout" component={Logout}></Route>
+      <Route exact path="/mapview" component={MapView}></Route>
     </Switch>
   );
 }
@@ -72,7 +74,10 @@ const Homepage = () => {
         onClose={handleClose}
         open={Boolean(anchorEl)}
       >
-        <MenuItem onClick={handleClose}>Map View</MenuItem>
+        <Link className="App-link" to="/mapview">
+        {" "}
+        <MenuItem onClick={handleClose}>Map View</MenuItem>{" "}
+        </Link>
         <Link className="App-link" to="/stations">
           {" "}
           <MenuItem onClick={handleClose}>List of Stations</MenuItem>{" "}
@@ -83,23 +88,7 @@ const Homepage = () => {
         </Link>
       </Menu>
     </div>
-     <div>
-     <ComposableMap
- projectionConfig={{
-   scale: 175,
-   rotation: [0, 0, 0],
- }}
- width={800}
- height={400}
- style={{ width: "100%", height: "100%" }} 
->
-       <Geographies geography={geoUrl}>
-         {({geographies}) => geographies.map(geo =>
-           <Geography key={geo.rsmKey} geography={geo} />
-         )}
-       </Geographies>
-     </ComposableMap>
-   </div>
+    
    </div>
   );
 };

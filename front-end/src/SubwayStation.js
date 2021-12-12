@@ -7,7 +7,6 @@ import axios from "axios";
 
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
-import NavBar from "./NavBar";
 
 const EXPRESS_DOMAIN = "http://localhost:4000";
 
@@ -69,7 +68,7 @@ const SubwayStation = (props) => {
   if (station.name && station.routes.length === 0) {
     return (
       <div>
-        <NavBar />
+        
         <div className="mainContent">
           <div className="container">
             <h1 className="stationName">{station.name}</h1>
@@ -98,7 +97,6 @@ const SubwayStation = (props) => {
   if (showFailure) {
     return (
       <div>
-        <NavBar />
         <div className="mainContent">
           <div className="container">
             <Alert
@@ -129,7 +127,6 @@ const SubwayStation = (props) => {
 
   return (
     <div>
-      <NavBar />
       <div className="mainContent">
         <div className="container">
           {showSuccess ? (
