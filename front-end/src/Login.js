@@ -47,7 +47,6 @@ const Login = (props) => {
     if (!status.success)
         return (
           <div>
-            <NavBar />
             <div className="mainContent">
               <h1>NYC ROUTE Log in</h1>
               <p>{errorMessage}</p>
@@ -66,7 +65,6 @@ const Login = (props) => {
              </div>
              <div className="mainContent"> 
              <img src={logo} alt="Manhattan" height="250" width="250"/>
-
              </div>
           </div>
         )
