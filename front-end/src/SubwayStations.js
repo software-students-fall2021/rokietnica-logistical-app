@@ -13,7 +13,7 @@ const SubwayStations = () => {
   const [loading, setLoading] = useState(true);
   const [showFailure, setShowFailure] = useState(false);
 
-  useEffect(() => {
+  const stationFetch = () => {
     axios
       .get(process.env.REACT_APP_BACKEND + "/allStations")
       .then((res) => {
@@ -27,10 +27,11 @@ const SubwayStations = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  };
 
-  useEffect(() => {
+  const favFetch = () => {
     const jwt = localStorage.getItem("token");
+    console.log("about to make axios call for fav stations");
     axios
       .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
         headers: { Authorization: `JWT ${jwt}` },
@@ -40,24 +41,39 @@ const SubwayStations = () => {
           const stationIDs = response.data.map((e) => {
             return e.id;
           });
-          if (!favStations || favStations === []) {
-            setFavStations(stationIDs);
-          } else {
-            let flag = false;
-            stationIDs.forEach((e) => {
-              // if different, refresh
-              if (!favStations.includes(e)) {
-                flag = true;
-              }
-            });
-            if (flag) setFavStations(stationIDs);
-          }
+          setFavStations(stationIDs);
+        } else {
+          setFavStations([]);
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [favStations]);
+  };
+
+  const fetching = () => {
+    stationFetch();
+    favFetch();
+  };
+
+  useEffect(fetching, []);
+  useEffect(stationFetch, [favStations]);
+
+  const favBtnHandler = (favStatus, stationID) => {
+    const jwt = localStorage.getItem("token");
+    let calltype =
+      favStatus === "\u2606" ? "addFavStation" : "removeFavStation";
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/${calltype}/${stationID}`, {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then(() => {
+        favFetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   if (loading) {
     return (
@@ -93,11 +109,23 @@ const SubwayStations = () => {
       <ListGroup className="stationsWrapper">
         {stations.map((st) => {
           if (favStations.includes(st.id)) {
-            return <SubwayStationItem station={st} favStations={favStations} />;
+            return (
+              <SubwayStationItem
+                station={st}
+                favStations={favStations}
+                favBtnHandler={favBtnHandler}
+              />
+            );
           }
         })}
         {stations.map((st) => {
-          return <SubwayStationItem station={st} favStations={favStations} />;
+          return (
+            <SubwayStationItem
+              station={st}
+              favStations={favStations}
+              favBtnHandler={favBtnHandler}
+            />
+          );
         })}
       </ListGroup>
     </div>

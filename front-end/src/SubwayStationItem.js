@@ -1,6 +1,8 @@
 import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
+import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./SubwayStationItem.css";
 import fx_icon from "./line_icons/fx.png";
@@ -74,42 +76,64 @@ const mapping = {
 
 const SubwayStationItem = (props) => {
   const isFavStation = props.favStations.includes(props.station.id);
+  const favIcon = isFavStation ? "\u2605" : "\u2606";
   return (
-    <Link className="App-link" to={`/stations/${props.station.id}`}>
-      <div className="contentWrapper">
-        <ListGroup.Item key={props.station.id} action>
-          {isFavStation ? "\u2605 " : "\u2606 "}
-          {props.station.name}
-          <div className="iconsWrapper">
-            {props.station.routes.map((line) => {
-              if (line.toLowerCase() === "fx") {
+    <div>
+      <Button
+        variant="outline-dark"
+        size="sm"
+        className="favbtn"
+        onClick={() => {
+          props.favBtnHandler(favIcon, props.station.id);
+        }}
+      >
+        {favIcon}
+      </Button>
+      <Link className="App-link" to={`/stations/${props.station.id}`}>
+        <div className="contentWrapper">
+          <ListGroup.Item key={props.station.id} action>
+            {props.station.name}
+            <div className="iconsWrapper">
+              {props.station.routes.map((line) => {
+                if (line.toLowerCase() === "fx") {
+                  return (
+                    <div className="icon">
+                      <img
+                        src={fx_icon}
+                        alt="F Express"
+                        height="22"
+                        width="22"
+                      />
+                    </div>
+                  );
+                }
+                if (line.toLowerCase() === "5x") {
+                  return (
+                    <div className="icon">
+                      <img
+                        src={Line_5x}
+                        alt="5 Express"
+                        height="22"
+                        width="22"
+                      />
+                    </div>
+                  );
+                }
+                if (!Object.keys(mapping).includes(line.toLowerCase())) {
+                  return <div className="icon">{line}</div>;
+                }
+                const Icon = mapping[line.toLowerCase()];
                 return (
                   <div className="icon">
-                    <img src={fx_icon} alt="F Express" height="22" width="22" />
+                    <Icon height="20" width="20" />
                   </div>
                 );
-              }
-              if (line.toLowerCase() === "5x") {
-                return (
-                  <div className="icon">
-                    <img src={Line_5x} alt="5 Express" height="22" width="22" />
-                  </div>
-                );
-              }
-              if (!Object.keys(mapping).includes(line.toLowerCase())) {
-                return <div className="icon">{line}</div>;
-              }
-              const Icon = mapping[line.toLowerCase()];
-              return (
-                <div className="icon">
-                  <Icon height="20" width="20" />
-                </div>
-              );
-            })}
-          </div>
-        </ListGroup.Item>
-      </div>
-    </Link>
+              })}
+            </div>
+          </ListGroup.Item>
+        </div>
+      </Link>
+    </div>
   );
 };
 
