@@ -2,7 +2,6 @@ import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 import "./SubwayStationItem.css";
 import fx_icon from "./line_icons/fx.png";

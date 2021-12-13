@@ -92,7 +92,7 @@ const SubwayStation = (props) => {
       });
   };
 
-  useEffect(favFetch, []);
+  useEffect(favFetch);
 
   if (loading) {
     return (
