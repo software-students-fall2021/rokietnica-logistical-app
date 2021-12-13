@@ -8,13 +8,9 @@ const Signup = (props) => {
   const [status, setStatus] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
 
-  //const location = useLocation()
-  //const { changeState } = location.state
-
   useEffect(() => {
     // if the user is logged-in, save the token to local storage
     if (status.success && status.token) {
-      console.log(`User successfully logged in: ${status.username}`);
       localStorage.setItem("token", status.token); // store the token into localStorage
       localStorage.setItem("user", status.username);
       this.props.location.state.changeState(true);
@@ -32,9 +28,6 @@ const Signup = (props) => {
         password: e.target.password.value,
         passwordCheck: e.target.passwordCheck.value,
       };
-
-      //console.log(requestData); debugging
-      //console.log(process.env.REACT_APP_BACKEND); debugging
 
       // send the request to the server api to authenticate
       const response = await axios.post(

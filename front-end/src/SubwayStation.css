@@ -18,8 +18,9 @@
   display: flex;
   justify-content: space-evenly;
   margin: auto;
-  width: 60%;
+  width: 80%;
   padding-bottom: 2em;
+  align-items: center;
 }
 
 .no-station,

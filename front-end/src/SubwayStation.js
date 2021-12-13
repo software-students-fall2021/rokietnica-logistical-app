@@ -8,8 +8,6 @@ import axios from "axios";
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
 
-const EXPRESS_DOMAIN = "http://localhost:4000";
-
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
   const [station, setStation] = useState({
@@ -21,11 +19,12 @@ const SubwayStation = (props) => {
   const [showRefresh, setRefresh] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     const fetchStation = () => {
       axios
-        .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
+        .get(`${process.env.REACT_APP_BACKEND}/station/${stationID}`)
         .then((res) => {
           setStation(res.data);
           setSuccess(true);
@@ -34,7 +33,7 @@ const SubwayStation = (props) => {
         })
         .catch((err) => {
           setShowFailure(true);
-          console.log(err);
+          console.error(err);
         })
         .finally(() => {
           setRefresh(false);
@@ -46,6 +45,54 @@ const SubwayStation = (props) => {
     const interval = setInterval(fetchStation, 30000);
     return () => clearInterval(interval);
   }, [showRefresh, stationID]);
+
+  const favBtnHandler = (favStatus, id) => {
+    if (favStatus) {
+      setIsFav(false);
+    } else {
+      setIsFav(true);
+    }
+    const jwt = localStorage.getItem("token");
+    let calltype =
+      favStatus === "\u2606" ? "addFavStation" : "removeFavStation";
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/${calltype}/${id}`, {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then(() => {
+        favFetch();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const favFetch = () => {
+    const jwt = localStorage.getItem("token");
+    axios
+      .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then((response) => {
+        if (response.data !== "no favorite stations") {
+          const stationIDs = response.data.map((e) => {
+            return e.id;
+          });
+          if (stationIDs.includes(stationID)) {
+            setIsFav(true);
+          } else {
+            setIsFav(false);
+          }
+        } else {
+          setIsFav(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(favFetch);
 
   if (loading) {
     return (
@@ -82,6 +129,14 @@ const SubwayStation = (props) => {
             >
               Refresh
             </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
           </div>
           <div className="no-routes">
             No trains are arriving within the next hour.
@@ -114,6 +169,14 @@ const SubwayStation = (props) => {
             >
               Refresh
             </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
           </div>
         </div>
       </div>
@@ -142,6 +205,14 @@ const SubwayStation = (props) => {
             }}
           >
             Refresh
+          </Button>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              favBtnHandler(isFav, stationID);
+            }}
+          >
+            {isFav ? "\u2605" : "\u2606"}
           </Button>
         </div>
         <div className="cardsWrapper">
