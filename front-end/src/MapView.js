@@ -9,8 +9,12 @@ import {
     Geography,
   } from "react-simple-maps"
 
+  import {ReactComponent as SubwayMapSvg} from './NYC_subway-4D.svg';
+  //import {ReactComponent as SubwayMapSvg} from './New_York_Subway_Map_Alargule.svg';
+
 
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
+
 
 
 const MapView = () => {
@@ -27,22 +31,8 @@ const MapView = () => {
   return (
     <div>
      <div>
-     <ComposableMap
-            projectionConfig={{
-            scale: 175,
-            rotation: [0, 0, 0],
-            }}
-            width={800}
-            height={400}
-            style={{ width: "100%", height: "100%" }} 
-    >
-       <Geographies geography={geoUrl}>
-         {({geographies}) => geographies.map(geo =>
-           <Geography key={geo.rsmKey} geography={geo} />
-         )}
-       </Geographies>
-     </ComposableMap>
-   </div>
+        <SubwayMapSvg style = {{height: 800, width:800}} />
+      </div>
    </div>
   );
 };
