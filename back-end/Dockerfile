@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
+COPY .env ./
+RUN mkdir -p /usr/src/MTAPI-master/data
+COPY  stations.json  /usr/src/MTAPI-master/data/
 
 RUN npm install
 # If you are building your code for production
@@ -14,6 +17,7 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+
 
 EXPOSE 4000
 CMD [ "node", "server.js" ]
