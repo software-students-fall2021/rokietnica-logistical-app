@@ -92,7 +92,6 @@ app.post("/signup", function (req, res) {
 app.post("/login", function (req, res) {
   const tUsername = req.body.username;
   const tPassword = req.body.password;
-  //console.log(`${tUsername}, ${tPassword}`) //debugging
 
   if (!tUsername || !tPassword) {
     // no username or password received in the POST body... send an error
@@ -102,14 +101,12 @@ app.post("/login", function (req, res) {
   }
 
   User.findOne({ username: tUsername }, "password", function (err, users) {
-    //console.log(users)
     if (users == null || err)
       res.status(401).json({ success: false, message: `error` });
     else {
       const retPass = users.password;
       // assuming we found the user, check the password is correct
       bcrypt.compare(tPassword, retPass).then(function (result) {
-        //console.log("===" + result) //debugging
         if (result) {
           const payload = { id: users.id }; // some data we'll encode into the token
           const token = jwt.sign(payload, jwtOptions.secretOrKey); // create a signed token
@@ -280,7 +277,6 @@ app.get("/lines/:id", (req, res, next) => {
     .get(endpoint)
     .then((apiResponse) => {
       const data = apiResponse.data.data;
-      //console.log(data)
       const retVal = parseLines(filterDuplicates(data), req.params.id);
       res.json(retVal);
     }) // pass data along directly to client
@@ -289,7 +285,6 @@ app.get("/lines/:id", (req, res, next) => {
 
 function parseLines(data, route) {
   data.forEach((e) => {
-    //console.log(e.N)
     e.N = getTrains(route, e.N);
     e.S = getTrains(route, e.S);
     e.last_update = minutesAgo(e.last_update);
