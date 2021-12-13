@@ -73,10 +73,12 @@ const mapping = {
 };
 
 const SubwayStationItem = (props) => {
+  const isFavStation = props.favStations.includes(props.station.id);
   return (
     <Link className="App-link" to={`/stations/${props.station.id}`}>
       <div className="contentWrapper">
         <ListGroup.Item key={props.station.id} action>
+          {isFavStation ? "\u2605 " : "\u2606 "}
           {props.station.name}
           <div className="iconsWrapper">
             {props.station.routes.map((line) => {
