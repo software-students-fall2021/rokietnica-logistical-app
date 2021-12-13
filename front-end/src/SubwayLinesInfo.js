@@ -6,24 +6,26 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import SubwayLinesInfoItem from "./SubwayLinesInfoItem.js";
-import NavBar from "./NavBar";
 
 import "./SubwayLinesInfo.css";
 
 const SubwayLinesInfo = (props) => {
   // start a state varaible with a blank array
   const [data, setData] = useState([]);
+  const [favStation, setFavStation] = useState([]);
+  const [favList, setFavList] = useState([]);
   const [reverse, setReverse] = useState([false, "regularOrder"]);
   const [refresh, setRefresh] = useState(true);
+  const [initLoad, setInitLoad] = useState(true);
+  const [favLoad, setFavLoad] = useState(true);
 
   const subwayLine = props.match.params.name;
 
   // the following side-effect will be called once upon initial render
   useEffect(() => {
-    if (refresh){
+    if (refresh) {
       axios(`${process.env.REACT_APP_BACKEND}/lines/${subwayLine}`)
         .then((response) => {
-          console.log("refresh alert")
           setData(response.data);
         })
         .catch((err) => {
@@ -32,17 +34,36 @@ const SubwayLinesInfo = (props) => {
         })
         .finally(() => {
           setRefresh(false);
+          setInitLoad(false);
+        });
+
+      const jwtToken = localStorage.getItem("token");
+      axios
+        .get(`${process.env.REACT_APP_BACKEND}/getFavStations/${subwayLine}`, {
+          headers: { Authorization: `JWT ${jwtToken}` },
+        })
+        .then((response) => {
+          setFavStation(response.data.data);
+          setFavList(response.data.stationIds);
+        })
+        .catch((err) => {
+          setFavStation([]);
+          setFavList([]);
+        })
+        .finally(() => {
+          setRefresh(false);
+          setFavLoad(false);
         });
     }
   }, [refresh, subwayLine]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const interval = setInterval(() => {
-      setRefresh(true)
+      setRefresh(true);
     }, 30000);
-  return () => {
-    clearInterval(interval);
-  }
+    return () => {
+      clearInterval(interval);
+    };
   }, [subwayLine]);
 
   function reverseOrdering(e) {
@@ -59,23 +80,58 @@ const SubwayLinesInfo = (props) => {
     setRefresh(true);
   }
 
-  return (
-    <div>
-      <div className = "mainContent">
-          <h1> {subwayLine} Line Info </h1>
-          <Link className="App-link" to="/lines">
-            <Button>Back</Button>
-          </Link>
-          <Button onClick={reverseOrdering} id = "listOrder"> {
-            (reverse[0]) ? ("\u25BC") : ("\u25B2")
-          } </Button>
-          <Button onClick={refreshPage} id = "refresh"> Refresh </Button>
-          <Accordion id={reverse[1]}>
-            {data.map((item) => (
-              <SubwayLinesInfoItem className="item" key={item.id} details={item} route={subwayLine}/>
-            ))}
-          </Accordion>
+
+  if (initLoad || favLoad) {
+    return (
+      <div className="mainContent">
+        <h1> Loading </h1>
+
       </div>
+    );
+  }
+
+  return (
+    <div className="main">
+      <h1> {subwayLine} Line Info </h1>
+      <Link className="App-link" to="/lines">
+        <Button>Back</Button>
+      </Link>
+      <Button onClick={reverseOrdering} id="listOrder">
+        {" "}
+        {reverse[0] ? "\u25BC" : "\u25B2"}{" "}
+      </Button>
+      <Button onClick={refreshPage} id="refresh">
+        {" "}
+        Refresh{" "}
+      </Button>
+      <Accordion>
+        {favStation.map((item) =>
+          item.routes.includes(subwayLine) ? (
+            <SubwayLinesInfoItem
+              className="item"
+              key={item.id}
+              details={item}
+              route={subwayLine}
+              onChange={setRefresh}
+              fav={favList}
+            />
+          ) : null
+        )}
+      </Accordion>
+      <Accordion id={reverse[1]}>
+        {data.map((item) =>
+          !favList.includes(item.id) ? (
+            <SubwayLinesInfoItem
+              className="item"
+              key={item.id}
+              details={item}
+              route={subwayLine}
+              onChange={setRefresh}
+              fav={favList}
+            />
+          ) : null
+        )}
+      </Accordion>
     </div>
   );
 };

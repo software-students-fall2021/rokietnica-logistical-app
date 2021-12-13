@@ -8,7 +8,9 @@ import axios from "axios";
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
 
+
 const EXPRESS_DOMAIN = "http://localhost:4000";
+
 
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
@@ -21,11 +23,12 @@ const SubwayStation = (props) => {
   const [showRefresh, setRefresh] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     const fetchStation = () => {
       axios
-        .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
+        .get(`${process.env.REACT_APP_BACKEND}/station/${stationID}`)
         .then((res) => {
           setStation(res.data);
           setSuccess(true);
@@ -34,7 +37,7 @@ const SubwayStation = (props) => {
         })
         .catch((err) => {
           setShowFailure(true);
-          console.log(err);
+          console.error(err);
         })
         .finally(() => {
           setRefresh(false);
@@ -46,6 +49,54 @@ const SubwayStation = (props) => {
     const interval = setInterval(fetchStation, 30000);
     return () => clearInterval(interval);
   }, [showRefresh, stationID]);
+
+  const favBtnHandler = (favStatus, id) => {
+    if (favStatus) {
+      setIsFav(false);
+    } else {
+      setIsFav(true);
+    }
+    const jwt = localStorage.getItem("token");
+    let calltype =
+      favStatus === "\u2606" ? "addFavStation" : "removeFavStation";
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/${calltype}/${id}`, {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then(() => {
+        favFetch();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const favFetch = () => {
+    const jwt = localStorage.getItem("token");
+    axios
+      .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then((response) => {
+        if (response.data !== "no favorite stations") {
+          const stationIDs = response.data.map((e) => {
+            return e.id;
+          });
+          if (stationIDs.includes(stationID)) {
+            setIsFav(true);
+          } else {
+            setIsFav(false);
+          }
+        } else {
+          setIsFav(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(favFetch);
 
   if (loading) {
     return (
@@ -67,75 +118,9 @@ const SubwayStation = (props) => {
 
   if (station.name && station.routes.length === 0) {
     return (
-      <div>
-        
-        <div className="mainContent">
-          <div className="container">
-            <h1 className="stationName">{station.name}</h1>
-            <div className="buttonsWrapper">
-              <Link className="App-link" to="/stations">
-                <Button variant="danger">Back</Button>
-              </Link>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  setRefresh(true);
-                }}
-              >
-                Refresh
-              </Button>
-            </div>
-            <div className="no-routes">
-              No trains are arriving within the next hour.
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
-  if (showFailure) {
-    return (
-      <div>
-        <div className="mainContent">
-          <div className="container">
-            <Alert
-              variant="danger"
-              onClose={() => setShowFailure(false)}
-              dismissible
-            >
-              <p className="alertmsg">Error with fetching train data</p>
-            </Alert>
-            <div className="buttonsWrapper">
-              <Link className="App-link" to="/stations">
-                <Button variant="danger">Back</Button>
-              </Link>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  setRefresh(true);
-                }}
-              >
-                Refresh
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
       <div className="mainContent">
         <div className="container">
-          {showSuccess ? (
-            <Alert variant="info" onClose={() => setSuccess(false)} dismissible>
-              <p className="alertmsg">Updated just now</p>
-            </Alert>
-          ) : (
-            ""
-          )}
           <h1 className="stationName">{station.name}</h1>
           <div className="buttonsWrapper">
             <Link className="App-link" to="/stations">
@@ -149,18 +134,103 @@ const SubwayStation = (props) => {
             >
               Refresh
             </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
           </div>
-          <div className="cardsWrapper">
-            {station.routes.map((line) => {
-              return (
-                <LineCard
-                  key={line}
-                  line={line}
-                  traintimes={station.traintimes[line]}
-                />
-              );
-            })}
+          <div className="no-routes">
+            No trains are arriving within the next hour.
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showFailure) {
+    return (
+
+      <div className="mainContent">
+        <div className="container">
+          <Alert
+            variant="danger"
+            onClose={() => setShowFailure(false)}
+            dismissible
+          >
+            <p className="alertmsg">Error with fetching train data</p>
+          </Alert>
+          <div className="buttonsWrapper">
+            <Link className="App-link" to="/stations">
+              <Button variant="danger">Back</Button>
+            </Link>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setRefresh(true);
+              }}
+            >
+              Refresh
+            </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mainContent">
+      <div className="container">
+        {showSuccess ? (
+          <Alert variant="info" onClose={() => setSuccess(false)} dismissible>
+            <p className="alertmsg">Updated just now</p>
+          </Alert>
+        ) : (
+          ""
+        )}
+        <h1 className="stationName">{station.name}</h1>
+        <div className="buttonsWrapper">
+          <Link className="App-link" to="/stations">
+            <Button variant="danger">Back</Button>
+          </Link>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setRefresh(true);
+            }}
+          >
+            Refresh
+          </Button>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              favBtnHandler(isFav, stationID);
+            }}
+          >
+            {isFav ? "\u2605" : "\u2606"}
+          </Button>
+        </div>
+        <div className="cardsWrapper">
+          {station.routes.map((line) => {
+            return (
+              <LineCard
+                key={line}
+                line={line}
+                traintimes={station.traintimes[line]}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

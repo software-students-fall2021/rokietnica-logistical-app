@@ -17,9 +17,9 @@ app.use((req, res, next) => {
   next();
 });
 
-const cors = require("cors")
+const cors = require("cors");
 // allow incoming requests only from a "trusted" host
-app.use(cors({ origin: process.env.FRONT_END_DOMAIN, credentials: true }))
+app.use(cors({ origin: process.env.FRONT_END_DOMAIN, credentials: true }));
 
 // ====================== MONGODB SETUP ======================
 
@@ -30,107 +30,95 @@ mongoose.connect(db_url, () => {
 });
 
 //models
-const User = require('./models/userModel')
-//const FavStation = require('./models/favStationModel')
-//const FavLine = require('./models/favLineModel')
+const User = require("./models/userModel");
+const FavStation = require("./models/favStationModel");
+const FavLine = require("./models/favLineModel");
 
 // ===================== END MONGODB SETUP ======================
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const jwt = require("jsonwebtoken")
-const passport = require("passport")
-app.use(passport.initialize())
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+app.use(passport.initialize());
 
-const { jwtOptions, jwtStrategy } = require("./jwt-config.js") // import setup options for using JWT in passport
-passport.use(jwtStrategy)
+const { jwtOptions, jwtStrategy } = require("./jwt-config.js"); // import setup options for using JWT in passport
+passport.use(jwtStrategy);
 
 // ===================== SIGNUP ROUTE ======================
 
 app.post("/signup", function (req, res) {
-  const username = req.body.username
-  const password = req.body.password
-  const passwordCheck = req.body.passwordCheck
+  const username = req.body.username;
+  const password = req.body.password;
+  const passwordCheck = req.body.passwordCheck;
 
   if (!username || !password || !passwordCheck) {
     // no username or password received in the POST body... send an error
     res
       .status(401)
-      .json({ success: false, message: `no username or password supplied.` })
+      .json({ success: false, message: `no username or password supplied.` });
   }
-  if (password != passwordCheck){
+  if (password != passwordCheck) {
     //password doesn't match the password check
-    res
-      .status(401)
-      .json({ success: false, message: `passwords don't match` })
+    res.status(401).json({ success: false, message: `passwords don't match` });
   }
   // encrypt the password and enter it into the database
-  bcrypt.hash(password, saltRounds).then(function(hash) {
+  bcrypt.hash(password, saltRounds).then(function (hash) {
     const newUser = new User({ username: username, password: hash });
-    newUser.save(function(err) {
+    newUser.save(function (err) {
       if (err) {
-        console.log(err)
-        if (err.name === 'MongoServerError' && err.code === 11000) {
+        console.log(err);
+        if (err.name === "MongoServerError" && err.code === 11000) {
           // Duplicate username
-          return res.status(422).send({ succes: false, message: 'User already exist!' });
+          return res
+            .status(422)
+            .send({ success: false, message: "User already exist!" });
         }
         // Some other error
         return res.status(401).send(err);
       }
-      return res.json({ success: true, username: req.body.username});
+      return res.json({ success: true, username: req.body.username });
     });
   });
-
-  /*
-  User.findOne({ username: req.body.username}, 'password', function (err, users) {
-    if (err) return res.status(401).json({ success: false, message: `user not found: ${tUsername}.` });
-    const payload = { id: users.id } // some data we'll encode into the token
-    const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
-    res.json({ success: true, username: req.body.username, token: token }) // send the token to the client to store
-  });
-  */
 });
 
 // ===================== END SIGNUP ROUTE ======================
 
 // ===================== LOGIN ROUTE ======================
 app.post("/login", function (req, res) {
-  const tUsername = req.body.username
-  const tPassword = req.body.password
-  //console.log(`${tUsername}, ${tPassword}`) //debugging
+  const tUsername = req.body.username;
+  const tPassword = req.body.password;
 
   if (!tUsername || !tPassword) {
     // no username or password received in the POST body... send an error
     res
       .status(401)
-      .json({ success: false, message: `no username or password supplied.` })
+      .json({ success: false, message: `no username or password supplied.` });
   }
 
-  User.findOne({ username: tUsername}, 'password', function (err, users) {
-    //console.log(users)
-      if (users == null || err)
-        res.status(401).json({ success: false, message: `error` });
-      else{
-        const retPass = users.password;
-        // assuming we found the user, check the password is correct
-        bcrypt.compare(tPassword, retPass).then(function(result) {
-          //console.log("===" + result) //debugging
-          if (result){
-            const payload = { id: users.id } // some data we'll encode into the token
-            const token = jwt.sign(payload, jwtOptions.secretOrKey) // create a signed token
-            res.json({ success: true, username: tUsername, token: token }) // send the token to the client to store
-          }
-          else{
-            res.status(401).json({ success: false, message: "passwords did not match" })
-          }
-        });
-      }
-
-  })
+  User.findOne({ username: tUsername }, "password", function (err, users) {
+    if (users == null || err)
+      res.status(401).json({ success: false, message: `error` });
+    else {
+      const retPass = users.password;
+      // assuming we found the user, check the password is correct
+      bcrypt.compare(tPassword, retPass).then(function (result) {
+        if (result) {
+          const payload = { id: users.id }; // some data we'll encode into the token
+          const token = jwt.sign(payload, jwtOptions.secretOrKey); // create a signed token
+          res.json({ success: true, username: tUsername, token: token }); // send the token to the client to store
+        } else {
+          res
+            .status(401)
+            .json({ success: false, message: "passwords did not match" });
+        }
+      });
+    }
+  });
   return;
 });
 
@@ -138,9 +126,133 @@ app.post("/login", function (req, res) {
 
 // ====================== FAVOURITE STATIONS ===================
 
+app.get(
+  "/addFavStation/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const stationId = req.params.id;
+    FavStation.findOne(
+      { userId: req.user.id },
+      "stationIds",
+      function (err, userFav) {
+        if (err) {
+          console.log(err);
+          return res.status(401).send(err);
+        }
+        if (userFav == null) {
+          const newFav = new FavStation({
+            userId: req.user.id,
+            stationIds: [stationId],
+          });
+          newFav.save();
+          return res.json({ success: true, message: "first station saved" });
+        } else {
+          if (userFav.stationIds.includes(stationId)) {
+            return res
+              .status(422)
+              .send({ success: false, message: "Station Already Saved" });
+          } else {
+            userFav.stationIds.push(stationId);
+            userFav.save();
+            return res.json({ success: true, message: "station saved" });
+          }
+        }
+      }
+    );
+  }
+);
+
+app.get(
+  "/removeFavStation/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const stationId = req.params.id;
+    FavStation.findOneAndUpdate(
+      { userId: req.user.id },
+      { $pull: { stationIds: stationId } },
+      function (err, userFav) {
+        if (err | (userFav == null)) {
+          console.log(err);
+          return res.status(401).send(err);
+        } else {
+          return res.json({ success: true, message: "station saved" });
+        }
+      }
+    );
+  }
+);
+
+app.get(
+  "/getFavStations/:line",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const line = req.params.line;
+    FavStation.findOne(
+      { userId: req.user.id },
+      "stationIds",
+      function (err, userFav) {
+        if ((userFav == null) | err) {
+          console.log(err);
+          return res.status(401).send(err);
+        } else {
+          const ids = userFav.stationIds.join(",");
+          const endpoint = API_DOMAIN + "/by-id/" + ids;
+          axios
+            .get(endpoint)
+            .then((response) => {
+              const data = response.data.data;
+              const retData = {};
+              retData.data = parseLines(response.data.data, line);
+              retData.stationIds = userFav.stationIds;
+              console.log(retData);
+              res.json(retData);
+            })
+            .catch((error) => {
+              console.log(error);
+              next(error);
+            });
+          //res.json(userFav);
+        }
+      }
+    );
+  }
+);
+
+app.get(
+  "/getAllFavStations",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    FavStation.findOne(
+      { userId: req.user.id },
+      "stationIds",
+      (err, userFav) => {
+        if ((userFav == null) | err) {
+          console.log(err);
+          return res.status(401).send(err);
+        } else {
+          if (userFav.stationIds.length == 0) {
+            res.send("no favorite stations");
+            return;
+          }
+          const ids = userFav.stationIds.join(",");
+          const endpoint = API_DOMAIN + "/by-id/" + ids;
+          axios
+            .get(endpoint)
+            .then((response) => {
+              const data = response.data.data;
+              console.log(data);
+              res.json(data);
+            })
+            .catch((error) => {
+              next(error);
+            });
+        }
+      }
+    );
+  }
+);
 
 // ===================== END FAVOURITE STATIONS ====================
-
 
 // parse stations file
 const stationsData = JSON.parse(
@@ -151,57 +263,45 @@ const stationIDs = Object.keys(stationsData);
 // ================= LINES -> STATIONS ROUTES ==================
 
 app.get("/allLines", (req, res, next) => {
-  const endpoint = API_DOMAIN + "/routes"
+  const endpoint = API_DOMAIN + "/routes";
   axios
     .get(endpoint)
     .then((apiResponse) => {
-      res.json(apiResponse.data.data)
+      res.json(apiResponse.data.data);
     }) // pass data along directly to client
     .catch((err) => next(err)); // pass any errors to express
-
 });
 app.get("/lines/:id", (req, res, next) => {
-  const endpoint = API_DOMAIN + "/by-route/" + req.params.id
+  const endpoint = API_DOMAIN + "/by-route/" + req.params.id;
   axios
     .get(endpoint)
     .then((apiResponse) => {
-      const data = apiResponse.data.data
-      console.log(data)
-      const retVal = parseLines(filterDuplicates(data), req.params.id)
-      //console.log(retVal)
-      /*
-      data.sort((a,b) => {
-        Object.keys
-        //console.log(parseInt(Object.keys(a.stops)[0]))
-        //console.log(Object.keys(b.stops)[0])
-        return parseInt(Object.keys(a.stops)[0]) - parseInt(Object.keys(b.stops)[0])
-      })
-      */
-      res.json(retVal)
+      const data = apiResponse.data.data;
+      const retVal = parseLines(filterDuplicates(data), req.params.id);
+      res.json(retVal);
     }) // pass data along directly to client
     .catch((err) => next(err)); // pass any errors to express
-})
+});
 
-function parseLines(data, route){
+function parseLines(data, route) {
   data.forEach((e) => {
-    //console.log(e.N)
-    e.N = getTrains(route, e.N)
-    e.S = getTrains(route, e.S)
-    e.last_update = minutesAgo(e.last_update)
-  })
-  return data
+    e.N = getTrains(route, e.N);
+    e.S = getTrains(route, e.S);
+    e.last_update = minutesAgo(e.last_update);
+  });
+  return data;
 }
 
-function filterDuplicates(data){
-  const ids = []
-  const newData = []
+function filterDuplicates(data) {
+  const ids = [];
+  const newData = [];
   data.forEach((station) => {
-    if(!ids.includes(station.id)){
-      ids.push(station.id)
-      newData.push(station)
+    if (!ids.includes(station.id)) {
+      ids.push(station.id);
+      newData.push(station);
     }
-  })
-  return newData
+  });
+  return newData;
 }
 
 // returns array of station objects, with id, name, and list of routes
