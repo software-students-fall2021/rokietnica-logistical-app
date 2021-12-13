@@ -7,8 +7,6 @@ import axios from "axios";
 import SubwayStationItem from "./SubwayStationItem";
 import "./SubwayStations.css";
 
-const EXPRESS_DOMAIN = "http://localhost:4000";
-
 const SubwayStations = () => {
   const [stations, setStations] = useState([{ id: "", name: "", routes: [] }]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +14,7 @@ const SubwayStations = () => {
 
   useEffect(() => {
     axios
-      .get(EXPRESS_DOMAIN + "/allStations")
+      .get(process.env.REACT_APP_BACKEND + "/allStations")
       .then((res) => {
         setStations(res.data.sort((a, b) => (a.name >= b.name ? 1 : -1)));
         setShowFailure(false);
@@ -32,7 +30,7 @@ const SubwayStations = () => {
 
   if (loading) {
     return (
-      <div className = "mainContent">
+      <div className="mainContent">
         <h1>Stations</h1>
         <div className="spinnerWrapper">
           <Spinner className="spinner" animation="border" role="status">
@@ -45,7 +43,7 @@ const SubwayStations = () => {
 
   if (showFailure) {
     return (
-      <div className = "mainContent">
+      <div className="mainContent">
         <h1>Stations</h1>
         <Alert
           variant="danger"
@@ -59,7 +57,7 @@ const SubwayStations = () => {
   }
 
   return (
-    <div className = "mainContent">
+    <div className="mainContent">
       <h1>Stations</h1>
       <ListGroup className="stationsWrapper">
         {stations.map((st) => {

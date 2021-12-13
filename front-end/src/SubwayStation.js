@@ -8,8 +8,6 @@ import axios from "axios";
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
 
-const EXPRESS_DOMAIN = "http://localhost:4000";
-
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
   const [station, setStation] = useState({
@@ -25,7 +23,7 @@ const SubwayStation = (props) => {
   useEffect(() => {
     const fetchStation = () => {
       axios
-        .get(`${EXPRESS_DOMAIN}/station/${stationID}`)
+        .get(`${process.env.REACT_APP_BACKEND}/station/${stationID}`)
         .then((res) => {
           setStation(res.data);
           setSuccess(true);
