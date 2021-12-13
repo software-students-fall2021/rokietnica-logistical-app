@@ -33,7 +33,7 @@ const SubwayStation = (props) => {
         })
         .catch((err) => {
           setShowFailure(true);
-          console.log(err);
+          console.error(err);
         })
         .finally(() => {
           setRefresh(false);
@@ -63,7 +63,7 @@ const SubwayStation = (props) => {
         favFetch();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -88,7 +88,7 @@ const SubwayStation = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

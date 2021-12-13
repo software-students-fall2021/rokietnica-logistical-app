@@ -46,7 +46,7 @@ const SubwayStations = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -70,7 +70,7 @@ const SubwayStations = () => {
         favFetch();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
