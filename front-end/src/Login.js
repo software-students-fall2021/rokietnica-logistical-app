@@ -11,7 +11,6 @@ const Login = (props) => {
   useEffect(() => {
     // if the user is logged-in, save the token to local storage
     if (status.success && status.token) {
-      console.log(`User successfully logged in: ${status.username}`);
       localStorage.setItem("token", status.token); // store the token into localStorage
       localStorage.setItem("user", status.username);
     }
@@ -26,16 +25,12 @@ const Login = (props) => {
         username: e.target.username.value, // gets the value of the field in the submitted form with name='username'
         password: e.target.password.value, // gets the value of the field in the submitted form with name='password',
       };
-
-      console.log(requestData);
-      console.log(process.env.REACT_APP_BACKEND);
       // send the request to the server api to authenticate
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND}/login`,
         requestData
       );
       // store the response data into the data state variable
-      console.log(response.data);
       setStatus(response.data);
     } catch (err) {
       // throw an error
