@@ -31,7 +31,6 @@ const SubwayStations = () => {
 
   const favFetch = () => {
     const jwt = localStorage.getItem("token");
-    console.log("about to make axios call for fav stations");
     axios
       .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
         headers: { Authorization: `JWT ${jwt}` },
