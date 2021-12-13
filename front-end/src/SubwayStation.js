@@ -19,6 +19,7 @@ const SubwayStation = (props) => {
   const [showRefresh, setRefresh] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     const fetchStation = () => {
@@ -44,6 +45,54 @@ const SubwayStation = (props) => {
     const interval = setInterval(fetchStation, 30000);
     return () => clearInterval(interval);
   }, [showRefresh, stationID]);
+
+  const favBtnHandler = (favStatus, id) => {
+    if (favStatus) {
+      setIsFav(false);
+    } else {
+      setIsFav(true);
+    }
+    const jwt = localStorage.getItem("token");
+    let calltype =
+      favStatus === "\u2606" ? "addFavStation" : "removeFavStation";
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/${calltype}/${id}`, {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then(() => {
+        favFetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const favFetch = () => {
+    const jwt = localStorage.getItem("token");
+    axios
+      .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then((response) => {
+        if (response.data !== "no favorite stations") {
+          const stationIDs = response.data.map((e) => {
+            return e.id;
+          });
+          if (stationIDs.includes(stationID)) {
+            setIsFav(true);
+          } else {
+            setIsFav(false);
+          }
+        } else {
+          setIsFav(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(favFetch, []);
 
   if (loading) {
     return (
@@ -80,6 +129,14 @@ const SubwayStation = (props) => {
             >
               Refresh
             </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
           </div>
           <div className="no-routes">
             No trains are arriving within the next hour.
@@ -112,6 +169,14 @@ const SubwayStation = (props) => {
             >
               Refresh
             </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                favBtnHandler(isFav, stationID);
+              }}
+            >
+              {isFav ? "\u2605" : "\u2606"}
+            </Button>
           </div>
         </div>
       </div>
@@ -140,6 +205,14 @@ const SubwayStation = (props) => {
             }}
           >
             Refresh
+          </Button>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              favBtnHandler(isFav, stationID);
+            }}
+          >
+            {isFav ? "\u2605" : "\u2606"}
           </Button>
         </div>
         <div className="cardsWrapper">
