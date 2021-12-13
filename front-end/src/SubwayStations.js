@@ -76,12 +76,14 @@ const SubwayStations = () => {
 
   if (loading) {
     return (
+
       <div className="mainContent">
         <h1>Stations</h1>
         <div className="spinnerWrapper">
           <Spinner className="spinner" animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
+
         </div>
       </div>
     );
@@ -89,6 +91,7 @@ const SubwayStations = () => {
 
   if (showFailure) {
     return (
+
       <div className="mainContent">
         <h1>Stations</h1>
         <Alert
@@ -98,11 +101,13 @@ const SubwayStations = () => {
         >
           <p className="alertmsg">Error with fetching train data</p>
         </Alert>
+
       </div>
     );
   }
 
   return (
+
     <div className="mainContent">
       <h1>Stations</h1>
       <ListGroup className="stationsWrapper">

@@ -8,6 +8,10 @@ import axios from "axios";
 import "./SubwayStation.css";
 import LineCard from "./LineCard";
 
+
+const EXPRESS_DOMAIN = "http://localhost:4000";
+
+
 const SubwayStation = (props) => {
   const stationID = props.match.params.id;
   const [station, setStation] = useState({
@@ -114,6 +118,7 @@ const SubwayStation = (props) => {
 
   if (station.name && station.routes.length === 0) {
     return (
+
       <div className="mainContent">
         <div className="container">
           <h1 className="stationName">{station.name}</h1>
@@ -148,6 +153,7 @@ const SubwayStation = (props) => {
 
   if (showFailure) {
     return (
+
       <div className="mainContent">
         <div className="container">
           <Alert

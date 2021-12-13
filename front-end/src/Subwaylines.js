@@ -90,6 +90,7 @@ function Lines() {
       });
   }, []);
 
+
   return (
     <div id="main">
       <div className="grid-container">

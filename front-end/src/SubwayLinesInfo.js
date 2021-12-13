@@ -80,10 +80,12 @@ const SubwayLinesInfo = (props) => {
     setRefresh(true);
   }
 
+
   if (initLoad || favLoad) {
     return (
       <div className="mainContent">
         <h1> Loading </h1>
+
       </div>
     );
   }
