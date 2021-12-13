@@ -13,6 +13,21 @@ const SubwayStations = () => {
   const [showFailure, setShowFailure] = useState(false);
 
   useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    axios
+      .get(process.env.REACT_APP_BACKEND + "/getAllFavStations", {
+        headers: { Authorization: `JWT ${jwt}` },
+      })
+      .then((res) => {
+        if (res.data != "no favorite stations") {
+          console.log("do work with favorite stations");
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     axios
       .get(process.env.REACT_APP_BACKEND + "/allStations")
       .then((res) => {
