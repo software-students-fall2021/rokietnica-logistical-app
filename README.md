@@ -25,4 +25,4 @@ PLEASE CONTACT one of the team members if you would like to fully access applica
 
 ## How to Build and Test
 
-Coming soon!
+Deployed at http://143.198.123.221:3000/
