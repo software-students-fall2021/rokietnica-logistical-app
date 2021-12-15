@@ -25,4 +25,6 @@ PLEASE CONTACT one of the team members if you would like to fully access applica
 
 ## How to Build and Test
 
-Deployed at http://143.198.123.221:3000/
+Deployed at http://174.138.47.219:4000
+
+WE HAVE SENT THE GRADERS THE .ENV FILES SO GRADERS HAVE THEM
